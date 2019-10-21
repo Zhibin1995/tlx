@@ -92,7 +92,10 @@ return [
     // 微信支付配置 具体可参考EasyWechat
     'wechatPaymentConfig' => [],
     // 微信小程序配置 具体可参考EasyWechat
-    'wechatMiniProgramConfig' => [],
+    'wechatMiniProgramConfig' => [
+        'app_id' => 'wx4777ae41fbe19d4f',
+        'secret' => 'ff2ba0040c3987b2d61a56ca3f31f823',
+    ],
     // 微信开放平台第三方平台配置 具体可参考EasyWechat
     'wechatOpenPlatformConfig' => [],
     // 微信企业微信配置 具体可参考EasyWechat
