@@ -5,7 +5,7 @@ namespace api\modules\v1\controllers;
 use Yii;
 use api\controllers\OnAuthController;
 use api\modules\v1\forms\MiniProgramLoginForm;
-use common\models\member\Member;
+use common\models\app\Member;
 use common\models\api\AccessToken;
 use common\helpers\ArrayHelper;
 use common\helpers\ResultDataHelper;
@@ -106,9 +106,16 @@ class MiniProgramController extends OnAuthController
         if (!($member = $memberAuthInfo->member)) {
             $member = new Member();
             $member->attributes = [
+                'open_id' =>$userinfo['openId'],
+                'unionid' => $userinfo['unionId'] ?? '',
                 'gender' => $userinfo['gender'],
                 'nickname' => $userinfo['nickName'],
-                'head_portrait' => $userinfo['avatarUrl'],
+                'avatar' => $userinfo['avatarUrl'],
+                'head_img' => $userinfo['avatarUrl'],
+                'country' => $userinfo['country'],
+                'province' => $userinfo['province'],
+                'city' => $userinfo['city'],
+                'created_at' => time()
             ];
             $member->save();
 
