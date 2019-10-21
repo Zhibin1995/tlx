@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
-use app\models\OrderDetail;
+use common\models\app\OrderDetail;
 use common\components\Curd;
 use common\models\base\SearchModel;
 use backend\controllers\BaseController;

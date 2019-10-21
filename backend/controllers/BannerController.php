@@ -3,10 +3,9 @@
 namespace backend\controllers;
 
 use Yii;
-use app\models\Banner;
+use common\models\app\Banner;
 use common\components\Curd;
 use common\models\base\SearchModel;
-use backend\controllers\BaseController;
 
 /**
 * Banner

@@ -2,9 +2,9 @@
 
 namespace backend\controllers;
 
-use app\models\Category;
+use common\models\app\Category;
 use Yii;
-use app\models\Goods;
+use common\models\app\Goods;
 use common\components\Curd;
 use common\models\base\SearchModel;
 use backend\controllers\BaseController;

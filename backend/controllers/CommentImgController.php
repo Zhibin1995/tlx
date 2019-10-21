@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
-use app\models\CommentImg;
+use common\models\app\CommentImg;
 use common\components\Curd;
 use common\models\base\SearchModel;
 use backend\controllers\BaseController;
