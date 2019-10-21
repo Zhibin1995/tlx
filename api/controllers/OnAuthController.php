@@ -149,4 +149,9 @@ class OnAuthController extends ActiveController
 
         return $model;
     }
+    public function getPost(){
+        $post = Yii::$app->request->rawBody;
+        $post_arr = json_decode($post,true);
+        return $post_arr;
+    }
 }

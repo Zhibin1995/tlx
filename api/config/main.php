@@ -73,8 +73,8 @@ return [
                          */
                         // 'sign-secret-key',
                         // 版本1
-                        'v1/default',// 默认测试入口
-                        'v1/site',
+                        'v1/index',// 默认测试入口
+                        'v1/good',
                         'v1/mini-program',
                         'v1/pay',
                         'v1/member/member',
@@ -92,7 +92,15 @@ return [
                         'POST register' => 'register', // 注册
                         'POST up-pwd' => 'up-pwd', // 重置密码
                         // 测试查询可删除 例如：http://www.rageframe.com/api/v1/default/search
-                        'GET search' => 'search',
+                        'GET banner' => 'banner',
+                        'GET category' => 'category',
+                        'GET package' => 'package',
+                        'GET hot' => 'hot',
+                        'GET show' => 'show',
+                        'GET about' => 'about',
+                        'POST list' => 'list',
+                        'POST detail' => 'detail',
+                        'POST comment' => 'comment',
                         'GET session-key' => 'session-key', // 小程序获取session key
                         'POST decode' => 'decode', // 解密获取小程序用户信息数据
                         'GET qr-code' => 'qr-code', // 获取小程序码
