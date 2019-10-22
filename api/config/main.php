@@ -75,6 +75,7 @@ return [
                         // 版本1
                         'v1/index',// 默认测试入口
                         'v1/good',
+                        'v1/show',
                         'v1/mini-program',
                         'v1/pay',
                         'v1/member/member',

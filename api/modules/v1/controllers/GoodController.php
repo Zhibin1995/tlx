@@ -23,8 +23,11 @@ class GoodController  extends OnAuthController
     protected $optional = ['list', 'detail','comment'];
     public function actionList(){
         $post = $this->getPost();
+        $page = $post['page'] ?? 1;
+        $size =$post['size'] ?? 10;
+        $offset = ($page - 1 )*$size;
         $category_id = $post['category_id'];
-        $category_info = Category::find()->where(['id' => $category_id])->asArray()->one();
+        $category_info = Category::find()->where(['id' => $category_id])->offset($offset)->limit($size)->asArray()->one();
         $query = Goods::find();
         $query->andWhere(['status' => 1]);
         if($category_id){
@@ -46,8 +49,8 @@ class GoodController  extends OnAuthController
     }
     public function actionComment(){
         $post = $this->getPost();
-        $page = $post['page'];
-        $size =$post['size'];
+        $page = $post['page'] ?? 1;
+        $size =$post['size'] ?? 10;
         $offset = ($page - 1 )*$size;
         $id = $post['id'];
         $list = Comment::find()->where(['goods_id' => $id ,'audit' =>1])->offset($offset)->limit($size)->asArray()->all();

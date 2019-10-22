@@ -44,7 +44,7 @@ class IndexController extends OnAuthController
         return $list;
     }
     public function actionShow(){
-        $list = Show::find()->where(['status' => 1])->asArray()->all();
+        $list = Show::find()->where(['status' => 1])->asArray()->orderBy('look desc')->all();
         return $list;
     }
     public function actionAbout(){
