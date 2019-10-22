@@ -12,7 +12,10 @@ namespace api\modules\v1\controllers;
 
 use api\controllers\OnAuthController;
 use common\models\app\Category;
+use common\models\app\Comment;
+use common\models\app\CommentImg;
 use common\models\app\Goods;
+use common\models\app\Member;
 use Yii;
 class GoodController  extends OnAuthController
 {
@@ -43,8 +46,23 @@ class GoodController  extends OnAuthController
     }
     public function actionComment(){
         $post = $this->getPost();
+        $page = $post['page'];
+        $size =$post['size'];
+        $offset = ($page - 1 )*$size;
         $id = $post['id'];
-        return [];
+        $list = Comment::find()->where(['goods_id' => $id ,'audit' =>1])->offset($offset)->limit($size)->asArray()->all();
+        foreach ($list as $k => $v){
+            $list[$k]['img'] = CommentImg::find()->where(['comment_Id'=>$v['id']])->select('url')->column();
+            if($v['is_hide']){
+                $list[$k]['username'] = '匿名用户';
+                $list[$k]['head'] = '/backend/resources/dist/img/profile_small.jpg';
+            }else{
+                $member = Member::findOne($v['member_id']);
+                $list[$k]['username'] = $member->nickname;
+                $list[$k]['head'] = $member->avatar;
+            }
+        }
+        return $list;
     }
 
 }
