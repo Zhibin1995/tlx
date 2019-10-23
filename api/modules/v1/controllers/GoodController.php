@@ -53,7 +53,7 @@ class GoodController  extends OnAuthController
         $size =$post['size'] ?? 10;
         $offset = ($page - 1 )*$size;
         $id = $post['id'];
-        $list = Comment::find()->where(['goods_id' => $id ,'audit' =>1])->offset($offset)->limit($size)->asArray()->all();
+        $list = Comment::find()->where(['good_id' => $id ,'audit' =>1])->offset($offset)->limit($size)->asArray()->all();
         foreach ($list as $k => $v){
             $list[$k]['img'] = CommentImg::find()->where(['comment_Id'=>$v['id']])->select('url')->column();
             if($v['is_hide']){
