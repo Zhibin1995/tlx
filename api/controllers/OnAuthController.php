@@ -113,11 +113,11 @@ class OnAuthController extends ActiveController
      * @return bool
      * @throws NotFoundHttpException
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
+        $id = $this->getPost()['id'];
         $model = $this->findModel($id);
-        $model->status = StatusEnum::DELETE;
-        return $model->save();
+        return $model->delete();
     }
 
     /**

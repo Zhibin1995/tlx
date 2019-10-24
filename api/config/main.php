@@ -77,6 +77,8 @@ return [
                         'v1/good',
                         'v1/show',
                         'v1/package',
+                        'v1/address',
+
                         'v1/mini-program',
                         'v1/pay',
                         'v1/member/member',
@@ -100,9 +102,16 @@ return [
                         'GET hot' => 'hot',
                         'GET show' => 'show',
                         'GET about' => 'about',
+                        'GET default' => 'default',
+
                         'POST list' => 'list',
                         'POST detail' => 'detail',
                         'POST comment' => 'comment',
+                        'POST create' => 'create',
+                        'POST update' => 'update',
+                        'POST delete' => 'delete',
+                        'POST province' => 'province',
+                        'POST set-default' => 'set-default',
                         'GET session-key' => 'session-key', // 小程序获取session key
                         'POST decode' => 'decode', // 解密获取小程序用户信息数据
                         'GET qr-code' => 'qr-code', // 获取小程序码
