@@ -124,7 +124,7 @@ class MiniProgramController extends OnAuthController
             $memberAuthInfo->save();
         }
 
-        return Yii::$app->services->apiAccessToken->getAccessToken($member, AccessToken::GROUP_MINI_PROGRAM);
+        return Yii::$app->services->apiAccessToken->getAccessToken($memberAuthInfo, AccessToken::GROUP_MINI_PROGRAM);
     }
 
     /**
