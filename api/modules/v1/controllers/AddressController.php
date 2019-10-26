@@ -80,7 +80,7 @@ class AddressController  extends OnAuthController
         $post = $this->getPost();
         $pid = $post['pid'] ?? 0;
         $level = $post['level'] ?? 1;
-        $list = Provinces::find()->select('id as code,title as name')->where(['pid' => $pid,'level' => $level])->asArray()->all();
+        $list = Provinces::find()->select('id as code,title as name')->where(['pid' => $pid,'level' => $level])->asArray()->orderBy('code asc')->all();
         return $list;
     }
 }
