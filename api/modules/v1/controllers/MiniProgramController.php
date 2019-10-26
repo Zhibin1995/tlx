@@ -123,8 +123,8 @@ class MiniProgramController extends OnAuthController
             $memberAuthInfo->member_id = $member['id'];
             $memberAuthInfo->save();
         }
-
-        return Yii::$app->services->apiAccessToken->getAccessToken($member, AccessToken::GROUP_MINI_PROGRAM);
+        $res = Member::find()->where(['id' => $member->id])->asArray()->one();
+        return $res;
     }
 
     /**
