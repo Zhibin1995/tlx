@@ -5,7 +5,7 @@ namespace services\member;
 use Yii;
 use common\enums\StatusEnum;
 use common\components\Service;
-use common\models\member\Member;
+use common\models\app\Member;
 
 /**
  * Class MemberService

@@ -108,7 +108,7 @@ return [
                         'POST detail' => 'detail',
                         'POST comment' => 'comment',
                         'POST create' => 'create',
-                        'POST update' => 'update',
+                        'POST edit' => 'edit',
                         'POST delete' => 'delete',
                         'POST province' => 'province',
                         'POST set-default' => 'set-default',

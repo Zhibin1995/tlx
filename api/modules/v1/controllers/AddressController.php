@@ -17,7 +17,7 @@ use common\models\common\Provinces;
 class AddressController  extends OnAuthController
 {
     public $modelClass = '';
-    protected $optional = ['list', 'detail','create','update','delete','default','set-default','province'];
+    protected $optional = ['list', 'detail','create','edit','delete','default','set-default','province'];
     public function actionList(){
         $post = $this->getPost();
         $page = $post['page'] ?? 1;
@@ -47,7 +47,7 @@ class AddressController  extends OnAuthController
         $address->mobile = $post['mobile'];
         return $address->save();
     }
-    public function actionUpdate(){
+    public function actionEdit(){
         $post = $this->getPost();
         $address = Address::findOne($post['id']);
         $address->province_id = $post['province_id'];
