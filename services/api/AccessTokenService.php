@@ -7,7 +7,7 @@ use yii\db\ActiveRecord;
 use yii\web\UnprocessableEntityHttpException;
 use common\enums\CacheKeyEnum;
 use common\helpers\ArrayHelper;
-use common\models\member\Member;
+use common\models\app\Member;
 use common\models\api\AccessToken;
 use common\components\Service;
 use common\enums\StatusEnum;
