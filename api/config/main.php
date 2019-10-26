@@ -78,6 +78,7 @@ return [
                         'v1/show',
                         'v1/package',
                         'v1/address',
+                        'v1/cart',
 
                         'v1/mini-program',
                         'v1/pay',
