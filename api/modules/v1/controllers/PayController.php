@@ -59,6 +59,7 @@ class PayController extends OnAuthController
             var_dump($response->getRequestData());
         }else{
             //pay fail
+            var_dump(1);var_dump($response->getRequestData());
         }
     }
 }
