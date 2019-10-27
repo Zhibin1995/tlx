@@ -104,7 +104,7 @@ return [
                         'GET show' => 'show',
                         'GET about' => 'about',
                         'GET default' => 'default',
-
+                        'POST notify' => 'notify',
                         'POST list' => 'list',
                         'POST detail' => 'detail',
                         'POST comment' => 'comment',

@@ -23,7 +23,7 @@ class PayController extends OnAuthController
      */
     public $modelClass = PayForm::class;
 
-    protected $optional = ['create'];
+    protected $optional = ['create','notify'];
 
 
     /**
@@ -50,5 +50,15 @@ class PayController extends OnAuthController
         }
 
         return $model->getConfig();
+    }
+    public function actionNotify(){
+        $response = Yii::$app->pay->wechat->notify();
+
+        if ($response->isPaid()) {
+            //pay success
+            var_dump($response->getRequestData());
+        }else{
+            //pay fail
+        }
     }
 }
