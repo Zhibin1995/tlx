@@ -36,10 +36,11 @@ class PayController extends OnAuthController
      */
     public function actionCreate()
     {
+        $post = $this->getPost();
         /* @var $model PayForm */
         $model = new $this->modelClass();
-        $model->attributes = Yii::$app->request->post();
-        $model->memberId = Yii::$app->user->identity->member_id;
+        $model->attributes = $post;
+        $model->memberId = $post['member_id'];
 
         if (isset(PayEnum::$payTypeAction[$model->payType])) {
             $model->notifyUrl = Url::removeMerchantIdUrl('toFront', ['notify/' . PayEnum::$payTypeAction[$model->payType]]);
