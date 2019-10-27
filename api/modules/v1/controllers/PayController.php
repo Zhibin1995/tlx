@@ -40,7 +40,7 @@ class PayController extends OnAuthController
         /* @var $model PayForm */
         $model = new $this->modelClass();
         $model->attributes = $post;
-        $model->memberId = $post['member_id'];
+        $model->member_id = $post['member_id'];
 
         if (isset(PayEnum::$payTypeAction[$model->payType])) {
             $model->notifyUrl = Url::removeMerchantIdUrl('toFront', ['notify/' . PayEnum::$payTypeAction[$model->payType]]);
