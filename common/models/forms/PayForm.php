@@ -162,7 +162,7 @@ class PayForm extends Model
         // 也可直接查数据库对应的关联ID，这样子一个订单只生成一个支付操作ID 增加下单率
         // Yii::$app->services->pay->findByOutTradeNo($order->out_trade_no);
 
-        $order['out_trade_no'] = $order_model->id;
+        $order['out_trade_no'] = $order_model->order_no;
 
         // 必须返回 body、total_fee、out_trade_no
         return $order;
