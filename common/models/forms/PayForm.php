@@ -7,6 +7,8 @@ use common\models\app\Goods;
 use common\models\app\Member;
 use common\models\app\Order;
 use common\models\app\OrderDetail;
+use common\models\app\Package;
+use common\models\app\PackageGoods;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Json;
@@ -123,23 +125,22 @@ class PayForm extends Model
         $order_model->num = $num;
         $order_model->amount = $amount;
         $order_model->save();
-        foreach ($data as $v){
-            $order_detail = new OrderDetail();
-            $order_detail->member_id = $this->member_id;
-            $order_detail->order_id = $order_model->id;
-            $order_detail->good_id = $v['good_id'];
-            $order_detail->num = $v['num'];
-            $order_detail->save();
-            $amount += Goods::find()->where(['id' => $v['good_id']])->select('price')->scalar() * $v['num'];
-            $num+= $v['num'];
-        }
-        $order_model->num = $num;
-        $order_model->amount = $amount;
-        $order_model->save();
         switch ($this->orderGroup) {
             case PayEnum::ORDER_GROUP_GOODS :
                 // TODO 查询订单获取订单信息
-                $orderSn = $order_model->order_no;
+                foreach ($data as $v){
+                    $order_detail = new OrderDetail();
+                    $order_detail->member_id = $this->member_id;
+                    $order_detail->order_id = $order_model->id;
+                    $order_detail->good_id = $v['good_id'];
+                    $order_detail->num = $v['num'];
+                    $order_detail->save();
+                    $amount += Goods::find()->where(['id' => $v['good_id']])->select('price')->scalar() * $v['num'];
+                    $num+= $v['num'];
+                }
+                $order_model->num = $num;
+                $order_model->amount = $amount;
+                $order_model->save();
                 $member = Member::findOne($this->member_id);
                 $totalFee = (int)$amount*100;
                 $order = [
@@ -155,6 +156,29 @@ class PayForm extends Model
                 $order = [
                     'body' => '',
                     'total_fee' => $totalFee,
+                ];
+                break;
+            default:
+                $package_id = $data['package_id'];
+                $package = Package::findOne($package_id);
+                $package_goods = PackageGoods::find()->where(['package_id' => $package_id])->all();
+                foreach ($package_goods as $v){
+                    $order_detail = new OrderDetail();
+                    $order_detail->member_id = $this->member_id;
+                    $order_detail->order_id = $order_model->id;
+                    $order_detail->good_id = $v->good_id;
+                    $order_detail->num = $v->num;
+                    $order_detail->save();
+                }
+                $order_model->num = 1;
+                $order_model->amount = $package->price;
+                $order_model->save();
+                $member = Member::findOne($this->member_id);
+                $totalFee = (int)$amount*100;
+                $order = [
+                    'body' => '购买套餐',
+                    'total_fee' => $totalFee,
+                    'open_id' => $member->open_id
                 ];
                 break;
         }

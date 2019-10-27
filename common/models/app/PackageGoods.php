@@ -31,7 +31,7 @@ class PackageGoods extends BaseModel
     public function rules()
     {
         return [
-            [['package_id', 'goods_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['package_id', 'goods_id', 'num', 'status', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -44,6 +44,7 @@ class PackageGoods extends BaseModel
             'id' => 'ID',
             'package_id' => '套餐',
             'goods_id' => '商品',
+            'num' => '数量',
             'status' => '状态(-1:已删除,0:禁用,1:正常)',
             'created_at' => '创建时间',
             'updated_at' => '修改时间',
