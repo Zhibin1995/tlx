@@ -100,10 +100,10 @@ class MiniProgramController extends OnAuthController
         }
 
         // TODO 查询自己关联的用户信息并处理自己的登录请求，并返回用户数据
-        // TODO 以下代码都可以替换
-
+        // TODO 以下代码都
+        $member = Member::findOne(['open_id' => $userinfo['openId']]);
         // 判断是否有管理信息 数据也可以后续在绑定
-        if (!($member = $memberAuthInfo->member)) {
+        if (!$member) {
             $member = new Member();
             $member->attributes = [
                 'open_id' =>$userinfo['openId'],
