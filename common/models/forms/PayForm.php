@@ -37,7 +37,7 @@ class PayForm extends Model
             [['orderGroup', 'payType', 'data', 'tradeType', 'member_id','address_id'], 'required'],
             [['orderGroup'], 'in', 'range' => array_keys(PayEnum::$orderGroupExplain)],
             [['payType'], 'in', 'range' => array_keys(PayEnum::$payTypeExplain)],
-            [['notifyUrl', 'returnUrl', 'data'], 'string'],
+            [['notifyUrl', 'returnUrl'], 'string'],
             [['tradeType'], 'verifyTradeType'],
         ];
     }
