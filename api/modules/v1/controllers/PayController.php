@@ -57,7 +57,7 @@ class PayController extends OnAuthController
         $post_data = $response->getRequestData();
         $order_status = Order::find()->where(['order_no'=>$post_data['out_trade_no']])->one();
 
-        if($post_data['return_code']=='SUCCESS'){
+        if($post_data['return_code']=='SUCCESS' && $order_status){
             /*
             * 首先判断，订单是否已经更新为ok，因为微信会总共发送8次回调确认
             * 其次，订单已经为ok的，直接返回SUCCESS
