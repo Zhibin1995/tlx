@@ -2,6 +2,10 @@
 
 namespace common\models\forms;
 
+use common\models\app\Address;
+use common\models\app\Goods;
+use common\models\app\Order;
+use common\models\app\OrderDetail;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Json;
@@ -19,9 +23,10 @@ class PayForm extends Model
     public $payType;
     public $tradeType = 'default';
     public $data; // json数组
-    public $memberId;
+    public $member_id;
     public $returnUrl;
     public $notifyUrl;
+    public $address_id;
 
     /**
      * @return array
@@ -29,7 +34,7 @@ class PayForm extends Model
     public function rules()
     {
         return [
-            [['orderGroup', 'payType', 'data', 'tradeType', 'memberId'], 'required'],
+            [['orderGroup', 'payType', 'data', 'tradeType', 'member_id','address_id'], 'required'],
             [['orderGroup'], 'in', 'range' => array_keys(PayEnum::$orderGroupExplain)],
             [['payType'], 'in', 'range' => array_keys(PayEnum::$payTypeExplain)],
             [['notifyUrl', 'returnUrl', 'data'], 'string'],
@@ -47,7 +52,7 @@ class PayForm extends Model
             'data' => '组别对应数据',
             'payType' => '支付类别',
             'tradeType' => '交易类别',
-            'memberId' => '用户id',
+            'member_id' => '用户id',
             'returnUrl' => '跳转地址',
             'notifyUrl' => '回调地址',
         ];
@@ -105,13 +110,38 @@ class PayForm extends Model
     protected function getBaseOrderInfo()
     {
         $data = Json::decode($this->data);
+        $num = $amount = 0;
+        $address = Address::findOne($this->address_id);
+        $order = new Order();
+        $order->member_id = $this->member_id;
+        $order->order_no = $this->createOrderNo();
+        $order->type = 1;
+        $order->username = $address->realname;
+        $order->userphone = $address->mobile;
+        $order->address = $address->address_name.$address->address_details;
+        $order->num = $num;
+        $order->amount = $amount;
+        $order->save();
+        foreach ($data as $v){
+            $order_detail = new OrderDetail();
+            $order_detail->member_id = $this->member_id;
+            $order_detail->order_id = $order->id;
+            $order_detail->good_id = $v['good_id'];
+            $order_detail->num = $v['num'];
+            $order_detail->save();
+            $amount += Goods::find()->where(['id' => $v['good_id']])->select('price')->scalar() * $v['num'];
+            $num+= $v['num'];
+        }
+        $order->num = $num;
+        $order->amount = $amount;
+        $order->save();
         switch ($this->orderGroup) {
             case PayEnum::ORDER_GROUP :
                 // TODO 查询订单获取订单信息
-                $orderSn = '';
-                $totalFee = '';
+                $orderSn = $order->order_no;
+                $totalFee = (int)$amount*100;
                 $order = [
-                    'body' => '',
+                    'body' => '购买服务',
                     'total_fee' => $totalFee,
                 ];
                 break;
@@ -129,15 +159,13 @@ class PayForm extends Model
         // 也可直接查数据库对应的关联ID，这样子一个订单只生成一个支付操作ID 增加下单率
         // Yii::$app->services->pay->findByOutTradeNo($order->out_trade_no);
 
-        $order['out_trade_no'] = Yii::$app->services->pay->getOutTradeNo(
-            $totalFee,
-            $orderSn,
-            $this->payType,
-            $this->tradeType,
-            $this->orderGroup
-        );
+        $order['out_trade_no'] = $order->id;
 
         // 必须返回 body、total_fee、out_trade_no
         return $order;
+    }
+    public function createOrderNo(){
+        $no = date('YmdHis',time()).rand(1000,9999);
+        return $no;
     }
 }
