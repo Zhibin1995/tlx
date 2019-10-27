@@ -112,33 +112,33 @@ class PayForm extends Model
         $data = $this->data;
         $num = $amount = 0;
         $address = Address::findOne($this->address_id);
-        $order = new Order();
-        $order->member_id = $this->member_id;
-        $order->order_no = $this->createOrderNo();
-        $order->type = 1;
-        $order->username = $address->realname;
-        $order->userphone = $address->mobile;
-        $order->address = $address->address_name.$address->address_details;
-        $order->num = $num;
-        $order->amount = $amount;
-        $order->save();
+        $order_model = new Order();
+        $order_model->member_id = $this->member_id;
+        $order_model->order_no = $this->createOrderNo();
+        $order_model->type = 1;
+        $order_model->username = $address->realname;
+        $order_model->userphone = $address->mobile;
+        $order_model->address = $address->address_name.$address->address_details;
+        $order_model->num = $num;
+        $order_model->amount = $amount;
+        $order_model->save();
         foreach ($data as $v){
             $order_detail = new OrderDetail();
             $order_detail->member_id = $this->member_id;
-            $order_detail->order_id = $order->id;
+            $order_detail->order_id = $order_model->id;
             $order_detail->good_id = $v['good_id'];
             $order_detail->num = $v['num'];
             $order_detail->save();
             $amount += Goods::find()->where(['id' => $v['good_id']])->select('price')->scalar() * $v['num'];
             $num+= $v['num'];
         }
-        $order->num = $num;
-        $order->amount = $amount;
-        $order->save();
+        $order_model->num = $num;
+        $order_model->amount = $amount;
+        v->save();
         switch ($this->orderGroup) {
             case PayEnum::ORDER_GROUP :
                 // TODO 查询订单获取订单信息
-                $orderSn = $order->order_no;
+                $orderSn = $order_model->order_no;
                 $totalFee = (int)$amount*100;
                 $order = [
                     'body' => '购买服务',
@@ -159,7 +159,7 @@ class PayForm extends Model
         // 也可直接查数据库对应的关联ID，这样子一个订单只生成一个支付操作ID 增加下单率
         // Yii::$app->services->pay->findByOutTradeNo($order->out_trade_no);
 
-        $order['out_trade_no'] = $order->id;
+        $order['out_trade_no'] = $order_model->id;
 
         // 必须返回 body、total_fee、out_trade_no
         return $order;
