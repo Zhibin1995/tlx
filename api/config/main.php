@@ -82,7 +82,6 @@ return [
 
                         'v1/mini-program',
                         'v1/pay',
-                        'v1/pay/notify',
 
                         'v1/member/member',
                         'v1/member/address',
