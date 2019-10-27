@@ -109,6 +109,7 @@ class PayService extends Service
      */
     public function miniProgram(PayForm $payForm, $baseOrder)
     {
+        var_dump($payForm->notifyUrl);die;
         // 设置appid
         Yii::$app->params['wechatPaymentConfig'] = ArrayHelper::merge(Yii::$app->params['wechatPaymentConfig'], [
             'app_id' => Yii::$app->debris->config('miniprogram_appid')
