@@ -134,7 +134,7 @@ class PayForm extends Model
         }
         $order_model->num = $num;
         $order_model->amount = $amount;
-        v->save();
+        $order_model->save();
         switch ($this->orderGroup) {
             case PayEnum::ORDER_GROUP :
                 // TODO 查询订单获取订单信息
