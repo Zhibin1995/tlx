@@ -2,6 +2,7 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\app\Order;
 use Yii;
 use api\controllers\OnAuthController;
 use common\enums\PayEnum;
@@ -53,13 +54,37 @@ class PayController extends OnAuthController
     }
     public function actionNotify(){
         $response = Yii::$app->pay->wechat->notify();
+        $post_data = $response->getRequestData();
+        $order_status = Order::find()->where(['order_no'=>$post_data['out_trade_no']])->one();
 
-        if ($response->isPaid()) {
-            //pay success
-            var_dump($response->getRequestData());
+        if($post_data['return_code']=='SUCCESS'){
+            /*
+            * 首先判断，订单是否已经更新为ok，因为微信会总共发送8次回调确认
+            * 其次，订单已经为ok的，直接返回SUCCESS
+            * 最后，订单没有为ok的，更新状态为ok，返回SUCCESS
+            */
+            if($order_status->pay_status === 1){
+                $this->return_success();
+            }else{
+                $order_status->status = 1;
+                $order_status->transaction_id = $post_data['transaction_id'];
+                if($order_status->save(false)){
+                    $this->return_success();
+                }
+            }
         }else{
-            //pay fail
-            var_dump(1);var_dump($response->getRequestData());
+            echo '微信支付失败';
         }
+        echo '{ "code":0 }';die;
+    }
+    //支付成功返回
+    private function return_success(){
+        $return['return_code'] = 'SUCCESS';
+        $return['return_msg'] = 'OK';
+        $xml_post = '<xml>
+                    <return_code>'.$return['return_code'].'</return_code>
+                    <return_msg>'.$return['return_msg'].'</return_msg>
+                    </xml>';
+        echo $xml_post;exit;
     }
 }
