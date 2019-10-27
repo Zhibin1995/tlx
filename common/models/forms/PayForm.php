@@ -174,7 +174,7 @@ class PayForm extends Model
                 $order_model->amount = $package->price;
                 $order_model->save();
                 $member = Member::findOne($this->member_id);
-                $totalFee = (int)$amount*100;
+                $totalFee = (int)$package->price*100;
                 $order = [
                     'body' => '购买套餐',
                     'total_fee' => $totalFee,
