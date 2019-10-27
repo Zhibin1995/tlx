@@ -126,7 +126,6 @@ class PayService extends Service
 
         $payment = Yii::$app->wechat->payment;
         $result = $payment->order->unify($orderData);
-        var_dump($result);die;
         return $payment->jssdk->sdkConfig($result['prepay_id']);
     }
 
