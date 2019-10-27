@@ -28,7 +28,7 @@ class PayForm extends Model
     public $data; // json数组
     public $member_id;
     public $returnUrl;
-    public $notifyUrl;
+    public $notifyUrl = "/api/pay/notify";
     public $address_id;
 
     /**
