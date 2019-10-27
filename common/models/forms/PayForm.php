@@ -109,7 +109,7 @@ class PayForm extends Model
      */
     protected function getBaseOrderInfo()
     {
-        $data = Json::decode($this->data);
+        $data = $this->data;
         $num = $amount = 0;
         $address = Address::findOne($this->address_id);
         $order = new Order();
