@@ -137,7 +137,7 @@ class PayForm extends Model
         $order_model->amount = $amount;
         $order_model->save();
         switch ($this->orderGroup) {
-            case PayEnum::ORDER_GROUP :
+            case PayEnum::ORDER_GROUP_GOODS :
                 // TODO 查询订单获取订单信息
                 $orderSn = $order_model->order_no;
                 $member = Member::findOne($this->member_id);
@@ -148,7 +148,7 @@ class PayForm extends Model
                     'open_id' => $member->open_id
                 ];
                 break;
-            case PayEnum::ORDER_GROUP_GOODS :
+            case  PayEnum::ORDER_GROUP:
                 // TODO 查询充值生成充值订单
                 $orderSn = '';
                 $totalFee = '';
