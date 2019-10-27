@@ -23,6 +23,9 @@ class PayController extends OnAuthController
      */
     public $modelClass = PayForm::class;
 
+    protected $optional = ['create'];
+
+
     /**
      * 生成支付参数
      *
