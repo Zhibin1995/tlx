@@ -12,7 +12,7 @@ class PayEnum
     const ORDER_GROUP = 'default';
     const ORDER_GROUP_GOODS = 'goods';
     const ORDER_GROUP_RECHARGE = 'recharge';
-
+    const ORDER_GROUP_PACKAGE = 'package';
     /**
      * 订单组别说明
      *
@@ -22,6 +22,7 @@ class PayEnum
         self::ORDER_GROUP => '统一支付',
         self::ORDER_GROUP_GOODS => '订单商品',
         self::ORDER_GROUP_RECHARGE => '充值',
+        self::ORDER_GROUP_PACKAGE => '套餐',
     ];
 
     const PAY_TYPE = 0;
