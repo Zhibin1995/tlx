@@ -4,6 +4,7 @@ namespace common\models\forms;
 
 use common\models\app\Address;
 use common\models\app\Goods;
+use common\models\app\Member;
 use common\models\app\Order;
 use common\models\app\OrderDetail;
 use Yii;
@@ -139,10 +140,12 @@ class PayForm extends Model
             case PayEnum::ORDER_GROUP :
                 // TODO 查询订单获取订单信息
                 $orderSn = $order_model->order_no;
+                $member = Member::findOne($this->member_id);
                 $totalFee = (int)$amount*100;
                 $order = [
                     'body' => '购买服务',
                     'total_fee' => $totalFee,
+                    'open_id' => $member->open_id
                 ];
                 break;
             case PayEnum::ORDER_GROUP_GOODS :

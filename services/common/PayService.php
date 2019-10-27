@@ -121,7 +121,7 @@ class PayService extends Service
             'notify_url' => $payForm->notifyUrl, // 支付结果通知网址，如果不设置则会使用配置里的默认地址
             'out_trade_no' => $baseOrder['out_trade_no'], // 支付
             'total_fee' => $baseOrder['total_fee'],
-            'openid' => '', // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
+            'openid' => $baseOrder['open_id'], // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
         ];
 
         $payment = Yii::$app->wechat->payment;
