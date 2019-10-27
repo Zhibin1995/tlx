@@ -66,7 +66,7 @@ class PayController extends OnAuthController
             if($order_status->pay_status === 1){
                 $this->return_success();
             }else{
-                $order_status->status = 1;
+                $order_status->pay_status = 1;
                 $order_status->transaction_id = $post_data['transaction_id'];
                 if($order_status->save(false)){
                     $this->return_success();
