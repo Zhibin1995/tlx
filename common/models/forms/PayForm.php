@@ -145,7 +145,7 @@ class PayForm extends Model
 //                $totalFee = (int)$amount*100;
                 $totalFee =1;
                 $order = [
-                    'body' => '购买服务',
+                    'body' => 'buy',
                     'total_fee' => $totalFee,
                     'open_id' => $member->open_id
                 ];
@@ -178,7 +178,7 @@ class PayForm extends Model
 //                $totalFee = (int)$package->price*100;
                 $totalFee = 1;
                 $order = [
-                    'body' => '购买套餐',
+                    'body' => 'package',
                     'total_fee' => $totalFee,
                     'open_id' => $member->open_id
                 ];
