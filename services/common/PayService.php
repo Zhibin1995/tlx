@@ -114,19 +114,56 @@ class PayService extends Service
             'app_id' => Yii::$app->debris->config('miniprogram_appid')
         ]);
 
-        $orderData = [
-            'trade_type' => 'JSAPI',
-            'body' => $baseOrder['body'],
-            // 'detail' => '支付详情',
-            'notify_url' => $payForm->notifyUrl, // 支付结果通知网址，如果不设置则会使用配置里的默认地址
-            'out_trade_no' => $baseOrder['out_trade_no'], // 支付
-            'total_fee' => $baseOrder['total_fee'],
-            'openid' => $baseOrder['open_id'], // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
-        ];
+        $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
-        $payment = Yii::$app->wechat->payment;
-        $result = $payment->order->unify($orderData);
-        return $payment->jssdk->sdkConfig($result['prepay_id'], $result["nonce_str"]);
+        $appid = Yii::$app->params['wechatPaymentConfig']['app_id'];
+        $mch_id = Yii::$app->params['wechatPaymentConfig']['mch_id'];
+        $key = Yii::$app->params['wechatPaymentConfig']['key'];
+        $nonce_str = $this->createNonceStr(32);
+        $order_arr = array(
+            'appid'=>$appid,
+            'mch_id'=>$mch_id,
+            'nonce_str'=>$nonce_str,
+            'body'=>$baseOrder['body'],
+            'out_trade_no'=>$baseOrder['out_trade_no'],
+            'total_fee'=>$baseOrder['total_fee'],
+            'spbill_create_ip'=>$_SERVER["REMOTE_ADDR"],
+            'notify_url'=>$payForm->notifyUrl,
+            'trade_type'=>"JSAPI",
+            'openid'=>$baseOrder['open_id'],
+        );
+        $sign = $this->MakeSign($order_arr,$key);
+        $order_arr['sign'] = $sign;
+        $xml = $this->array_to_xml($order_arr);
+        $pay_res_xml = $this->httpRequest($url,$xml);
+        $pay_res_arr = $this->xml_to_array($pay_res_xml);
+        if($pay_res_arr['return_code'] =='SUCCESS' && $pay_res_arr['result_code'] =='SUCCESS'){
+            $prepay_id = $pay_res_arr['prepay_id'];
+            $nonceStr = $pay_res_arr['nonce_str'];
+            if($prepay_id && $nonceStr){
+                $this_time = time();
+                $ret_pay_data =array(
+                    'appId'=>$appid,
+                    'timeStamp'=>$this_time,
+                    'nonceStr'=>$nonceStr,
+                    'package'=>'prepay_id='.$prepay_id,
+                    'signType'=>'MD5',
+                );
+                $paySign = $this->MakeSign($ret_pay_data,$key);
+                $return_pay = array(
+                    'timeStamp'=>$this_time,
+                    'nonceStr' => $nonceStr,
+                    'signType' => 'MD5',
+                    'paySign' => $paySign,
+                    'package' => 'prepay_id='.$prepay_id
+                );
+                echo json_encode(array('errcode'=>0,'msg'=>'','data'=>$return_pay));die;
+            }else{
+                echo json_encode(array('errcode'=>1,'msg'=>'生成订单失败'));die;
+            }
+        }else{
+            echo json_encode(array('errcode'=>1,'msg'=>'提交订单失败'));die;
+        }
     }
 
     /**
@@ -187,5 +224,88 @@ class PayService extends Service
                 return true;
                 break;
         }
+    }
+    public function createNonceStr($length = 16)
+    {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $str = "";
+        for ($i = 0; $i < $length; $i++) {
+            $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+        }
+        return $str;
+    }
+    /**
+     * 生成签名, $KEY就是支付key
+     * @return 签名
+     */
+    public function MakeSign($params,$KEY){
+        //签名步骤一：按字典序排序数组参数
+        ksort($params);
+        $string = self::ToUrlParams($params);  //参数进行拼接key=value&k=v
+        //签名步骤二：在string后加入KEY
+        $string = $string . "&key=".$KEY;
+        //签名步骤三：MD5加密
+        $string = md5($string);
+        //签名步骤四：所有字符转为大写
+        $result = strtoupper($string);
+        return $result;
+    }
+    public function ToUrlParams( $params ){
+        $string = '';
+        if( !empty($params) ){
+            $array = array();
+            foreach( $params as $key => $value ){
+                $array[] = $key.'='.$value;
+            }
+            $string = implode("&",$array);
+        }
+        return $string;
+    }
+    public function array_to_xml( $params ){
+        if(!is_array($params)|| count($params) <= 0)
+        {
+            return false;
+        }
+        $xml = "<xml>";
+        foreach ($params as $key=>$val)
+        {
+            if (is_numeric($val)){
+                $xml.="<".$key.">".$val."</".$key.">";
+            }else{
+                $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
+            }
+        }
+        $xml.="</xml>";
+        return $xml;
+    }
+    public function httpRequest($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+        if (!empty ($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json; charset=utf-8',
+            'Content-Length: ' . strlen($data)
+        ));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
+    public function xml_to_array($xml){
+        if(!$xml){
+            return false;
+        }
+        //将XML转为array
+        //禁止引用外部xml实体
+        libxml_disable_entity_loader(true);
+        $data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+        return $data;
     }
 }
