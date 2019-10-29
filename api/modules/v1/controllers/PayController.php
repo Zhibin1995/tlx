@@ -3,6 +3,7 @@
 namespace api\modules\v1\controllers;
 
 use common\models\app\Order;
+use common\models\app\OrderDetail;
 use Yii;
 use api\controllers\OnAuthController;
 use common\enums\PayEnum;
@@ -68,6 +69,7 @@ class PayController extends OnAuthController
             }else{
                 $order_status->pay_status = 1;
                 $order_status->transaction_id = $post_data['transaction_id'];
+                OrderDetail::updateAll(['make_status' => 1] ,['order_id' => $order_status->id]);
                 if($order_status->save(false)){
                     $this->return_success();
                 }

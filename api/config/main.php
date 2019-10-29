@@ -79,10 +79,11 @@ return [
                         'v1/package',
                         'v1/address',
                         'v1/cart',
+                        'v1/goodcase',
 
                         'v1/mini-program',
                         'v1/pay',
-
+                        'v1/shop',
                         'v1/member/member',
                         'v1/member/address',
                         'v1/member/auth',
@@ -112,6 +113,8 @@ return [
                         'POST create' => 'create',
                         'POST edit' => 'edit',
                         'POST delete' => 'delete',
+                        'POST create_time' => 'create-time',
+                        'POST get_time' => 'get-time',
                         'POST province' => 'province',
                         'POST set-default' => 'set-default',
                         'GET session-key' => 'session-key', // 小程序获取session key
