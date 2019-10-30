@@ -80,6 +80,7 @@ return [
                         'v1/address',
                         'v1/cart',
                         'v1/goodcase',
+                        'v1/make',
 
                         'v1/mini-program',
                         'v1/pay',
@@ -110,6 +111,7 @@ return [
                         'POST list' => 'list',
                         'POST detail' => 'detail',
                         'POST comment' => 'comment',
+                        'POST finish' => 'finish',
                         'POST create' => 'create',
                         'POST edit' => 'edit',
                         'POST delete' => 'delete',
