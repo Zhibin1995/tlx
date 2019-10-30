@@ -157,12 +157,12 @@ class PayService extends Service
                     'paySign' => $paySign,
                     'package' => 'prepay_id='.$prepay_id
                 );
-                echo json_encode(array('errcode'=>0,'msg'=>'','data'=>$return_pay));die;
+                echo json_encode(array('code'=>0,'message'=>'','data'=>$return_pay));die;
             }else{
-                echo json_encode(array('errcode'=>1,'msg'=>'生成订单失败'));die;
+                echo json_encode(array('code'=>1,'message'=>'生成订单失败'));die;
             }
         }else{
-            echo json_encode(array('errcode'=>1,'msg'=>'提交订单失败'));die;
+            echo json_encode(array('code'=>1,'message'=>'提交订单失败'));die;
         }
     }
 
