@@ -29,6 +29,7 @@ class CollectController  extends OnAuthController
         $res = [];
         foreach ($list as $value){
             $goods = Goods::find()->where(['id' => $value->good_id])->asArray()->one();
+            $goods['url'] = explode(',',$goods['url'])[0];
             $res[] =$goods;
         }
         return $res;
