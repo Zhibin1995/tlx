@@ -34,6 +34,9 @@ class GoodController  extends OnAuthController
             $query->andWhere(['category_id' => $category_id]);
         }
         $list =$query->asArray()->all();
+        foreach ($list as $k => $v){
+            $list[$k]['url'] = explode(',',$v['url'])[0];
+        }
         $res = [
             'list' => $list,
             'category' =>$category_info
