@@ -40,7 +40,7 @@ class IndexController extends OnAuthController
     public function actionHot(){
         $list = Goods::find()->where(['status' => 1,'is_hot' =>1])->asArray()->all();
         foreach ($list as $k => $v){
-            $list[$k]['img_arr'] = explode(',',$v['url']);
+            $list[$k]['url'] = explode(',',$v['url'])[0];
         }
         return $list;
     }
