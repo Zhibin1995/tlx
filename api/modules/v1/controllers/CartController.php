@@ -33,10 +33,15 @@ class CartController  extends OnAuthController
     }
     public function actionCreate(){
         $post = $this->getPost();
-        $cart = new Cart();
-        $cart->member_id = $post['member_id'];
-        $cart->good_id = $post['good_id'];
-        $cart->num = $post['num'];
+        $cart = Cart::find()->where(['member_id' => $post['member_id'],'good_id' => $post['good_id']])->one();
+        if(!$cart){
+            $cart = new Cart();
+            $cart->member_id = $post['member_id'];
+            $cart->good_id = $post['good_id'];
+            $cart->num = $post['num'];
+        }else{
+            $cart->num += $post['num'];
+        }
         return $cart->save();
     }
     public function actionEdit(){

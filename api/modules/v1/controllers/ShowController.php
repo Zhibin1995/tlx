@@ -19,11 +19,10 @@ class ShowController  extends OnAuthController
     protected $optional = ['list', 'detail'];
     public function actionList(){
         $post = $this->getPost();
-        $id = $post['id'];
         $page = $post['page'] ?? 1;
         $size =$post['size'] ?? 10;
         $offset = ($page - 1 )*$size;
-        $list = Show::find()->andWhere(['!=','id' ,$id])->andWhere(['status' =>1])->offset($offset)->limit($size)->orderBy('look desc')->asArray()->all();
+        $list = Show::find()->andWhere(['status' =>1])->offset($offset)->limit($size)->orderBy('look desc')->asArray()->all();
         return $list;
     }
     public function actionDetail(){

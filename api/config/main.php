@@ -81,7 +81,7 @@ return [
                         'v1/cart',
                         'v1/goodcase',
                         'v1/make',
-
+                        'v1/collect',
                         'v1/mini-program',
                         'v1/pay',
                         'v1/shop',
@@ -107,6 +107,7 @@ return [
                         'GET show' => 'show',
                         'GET about' => 'about',
                         'GET default' => 'default',
+                        'GET tip' => 'tip',
                         'POST notify' => 'notify',
                         'POST list' => 'list',
                         'POST detail' => 'detail',

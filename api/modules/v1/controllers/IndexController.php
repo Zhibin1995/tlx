@@ -17,11 +17,12 @@ use common\models\app\Goods;
 use common\models\app\Package;
 use common\models\app\Show;
 use common\models\app\SysSet;
+use common\models\app\Tip;
 
 class IndexController extends OnAuthController
 {
     public $modelClass = '';
-    protected $optional = ['banner', 'category','package','hot','show','about'];
+    protected $optional = ['banner', 'category','package','hot','show','about','tip'];
 
     public function actionBanner()
     {
@@ -45,6 +46,10 @@ class IndexController extends OnAuthController
     }
     public function actionShow(){
         $list = Show::find()->where(['status' => 1])->asArray()->orderBy('look desc')->all();
+        return $list;
+    }
+    public function actionTip(){
+        $list = Tip::find()->where(['status' => 1])->asArray()->all();
         return $list;
     }
     public function actionAbout(){
