@@ -25,6 +25,7 @@ class CartController  extends OnAuthController
         $res = [];
         foreach ($list as $value){
             $goods = Goods::find()->where(['id' => $value->good_id])->asArray()->one();
+            $goods['url'] = explode(',',$goods['url'])[0];
             $goods['num'] = $value['num'];
             $goods['cart_id'] = $value['id'];
             $res[] =$goods;
