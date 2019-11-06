@@ -12,6 +12,7 @@ namespace api\modules\v1\controllers;
 
 use api\controllers\OnAuthController;
 use common\models\app\Category;
+use common\models\app\Collect;
 use common\models\app\Comment;
 use common\models\app\CommentImg;
 use common\models\app\Goods;
@@ -46,8 +47,10 @@ class GoodController  extends OnAuthController
     public function actionDetail(){
         $post = $this->getPost();
         $id = $post['id'];
+        $member = $post['member_id'];
         $info = Goods::find()->asArray()->where(['id' => $id])->one();
         $info['img_arr'] = explode(',',$info['url']);
+        $info['is_collect'] = Collect::findOne(['member_id' =>$member,'good_id' => $id]) ? 1 :0;
         return $info;
     }
     public function actionComment(){

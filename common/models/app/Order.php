@@ -13,7 +13,7 @@ use Yii;
  * @property string $order_no 订单号
  * @property string $transaction_id 三方支付号
  * @property int $type 类型
- * @property int $pay_status 支付状态
+ * @property int $pay_status 支付状态 0:待支付 1：已支付 2：退款中 3：已退款 4：待评价 5：已完成
  * @property string $username 收货人
  * @property string $userphone 收货电话
  * @property string $address 收货地址

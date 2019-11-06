@@ -85,6 +85,7 @@ return [
                         'v1/collect',
                         'v1/mini-program',
                         'v1/pay',
+                        'v1/order',
                         'v1/shop',
                         'v1/member/member',
                         'v1/member/address',
