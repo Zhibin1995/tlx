@@ -49,14 +49,19 @@ class OrderController extends OnAuthController
             foreach ($goods_all as $item_g){
                 $good_info = Goods::findOne($item_g->good_id);
                 $good = [];
+                $good['id'] = $good_info->id;
                 $good['num'] = $item_g->num;
                 $good['name'] = $good_info->name;
+                $good['desc'] = $good_info->desc;
+                $good['price'] = $good_info->price;
                 $good['img'] = explode(',',$good_info->url)[0];
                 $goods[] = $good;
             }
             $temp = [];
             $temp['create_at'] = date('Y-m-d H:i:s',$item['created_at']);
             $temp['status'] = $item['pay_status'];
+            $temp['id'] = $item['id'];
+            $temp['amount'] = $item['amount'];
             $temp['goods'] = $goods;
             $res[] = $temp;
         }
