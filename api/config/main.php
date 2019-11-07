@@ -118,6 +118,8 @@ return [
                         'POST create' => 'create',
                         'POST edit' => 'edit',
                         'POST phone' => 'phone',
+                        'POST refund' => 'refund',
+                        'POST wait-make' => 'wait-make',
                         'POST delete' => 'delete',
                         'POST create_time' => 'create-time',
                         'POST get_time' => 'get-time',

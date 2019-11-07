@@ -11,6 +11,7 @@ namespace api\modules\v1\controllers;
 
 
 use api\controllers\OnAuthController;
+use common\helpers\ResultDataHelper;
 use common\models\app\Banner;
 use common\models\app\Category;
 use common\models\app\Goods;
@@ -24,7 +25,7 @@ use common\models\app\Tip;
 class OrderController extends OnAuthController
 {
     public $modelClass = '';
-    protected $optional = ['list', 'detail','refund','hot','show','about','tip'];
+    protected $optional = ['list', 'wait-make','refund','hot','show','about','tip'];
 
     public function actionList()
     {
@@ -44,36 +45,79 @@ class OrderController extends OnAuthController
         $list =$query->offset($offset)->limit($size)->asArray()->all();
         $res = [];
         foreach ($list as $item){
-            $goods_all = OrderDetail::findAll(['order_id' => $item['id']]);
-            $goods = [];
-            foreach ($goods_all as $item_g){
-                $good_info = Goods::findOne($item_g->good_id);
+            if($item['type'] == 1){
+                $goods_all = OrderDetail::findAll(['order_id' => $item['id']]);
+                $goods = [];
+                foreach ($goods_all as $item_g){
+                    $good_info = Goods::findOne($item_g->good_id);
+                    $good = [];
+                    $good['id'] = $good_info->id;
+                    $good['num'] = $item_g->num;
+                    $good['name'] = $good_info->name;
+                    $good['desc'] = $good_info->desc;
+                    $good['price'] = $good_info->price;
+                    $good['img'] = explode(',',$good_info->url)[0];
+                    $goods[] = $good;
+                }
+            }else{
+                $goods = [];
+                $good_info = Package::findOne($item['package_id']);
                 $good = [];
                 $good['id'] = $good_info->id;
-                $good['num'] = $item_g->num;
+                $good['num'] = 1;
                 $good['name'] = $good_info->name;
                 $good['desc'] = $good_info->desc;
                 $good['price'] = $good_info->price;
                 $good['img'] = explode(',',$good_info->url)[0];
                 $goods[] = $good;
+
+
             }
             $temp = [];
             $temp['create_at'] = date('Y-m-d H:i:s',$item['created_at']);
             $temp['status'] = $item['pay_status'];
             $temp['id'] = $item['id'];
+            $temp['type'] = $item['type'];
             $temp['amount'] = $item['amount'];
             $temp['goods'] = $goods;
             $res[] = $temp;
         }
         return $res;
     }
-    public function actionCategory(){
-        $list = Category::find()->where(['status' => 1])->asArray()->all();
-        return $list;
+    public function actionRefund(){
+        $post = $this->getPost();
+        $order = Order::findOne($post['id']);
+        if($order->status != 1){
+            return ResultDataHelper::api(201, '不可退单');
+        }
+        $refund_info = OrderDetail::findOne(['order_id' => $post['id'],'is_refund' => 1]);
+        $make_info = OrderDetail::findOne(['order_id' => $post['id'],'make_status' => 0]);
+        if($refund_info || $make_info){
+            return ResultDataHelper::api(201, '不可退单');
+
+        }
+        $order->status =2;
+        $order->refund_remark = $post['remark'];
+        OrderDetail::updateAll(['is_refund' => 1],['order_id' => $post['id']]);
+        return $order->save();
     }
-    public function actionPackage(){
-        $list = Package::find()->where(['status' => 1])->asArray()->all();
-        return $list;
+    public function actionWaitMake(){
+        $post = $this->getPost();
+        $member_id = $post['member_id'];
+        $list = OrderDetail::find()->andWhere(['member_id' => $member_id ,'make_status' => 0])->andWhere(['!=','is_refund',1])->all();
+        $res = [];
+        foreach ($list as $item){
+            $good_info = Goods::findOne($item->good_id);
+            $good = [];
+            $good['id'] = $good_info->id;
+            $good['num'] = $item->num;
+            $good['name'] = $good_info->name;
+            $good['desc'] = $good_info->desc;
+            $good['price'] = $good_info->price;
+            $good['img'] = explode(',',$good_info->url)[0];
+            $res[] = $good;
+        }
+        return $res;
     }
     public function actionHot(){
         $list = Goods::find()->where(['status' => 1,'is_hot' =>1])->asArray()->all();

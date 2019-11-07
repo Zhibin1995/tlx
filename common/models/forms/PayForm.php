@@ -118,7 +118,6 @@ class PayForm extends Model
         $order_model = new Order();
         $order_model->member_id = $this->member_id;
         $order_model->order_no = $this->createOrderNo();
-        $order_model->type = 1;
         $order_model->username = $address->realname;
         $order_model->userphone = $address->mobile;
         $order_model->address = $address->address_name.$address->address_details;
@@ -138,6 +137,7 @@ class PayForm extends Model
                     $amount += Goods::find()->where(['id' => $v['good_id']])->select('price')->scalar() * $v['num'];
                     $num+= $v['num'];
                 }
+                $order_model->type = 1;
                 $order_model->num = $num;
                 $order_model->amount = $amount;
                 $order_model->save();
@@ -171,6 +171,8 @@ class PayForm extends Model
                     $order_detail->num = $v->num;
                     $order_detail->save();
                 }
+                $order_model->package_id = $package_id;
+                $order_model->type = 2;
                 $order_model->num = 1;
                 $order_model->amount = $package->price;
                 $order_model->save();
