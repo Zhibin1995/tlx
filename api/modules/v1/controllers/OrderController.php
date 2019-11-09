@@ -245,4 +245,9 @@ class OrderController extends OnAuthController
         $info = SysSet::findOne(1);
         return $info->about;
     }
+    public function actionComment(){
+        $post = $this->getPost();
+        $id = $post['id'];
+        return $id;
+    }
 }

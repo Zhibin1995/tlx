@@ -28,7 +28,7 @@ class UserController  extends OnAuthController
         $iv = $post['iv'];
         $encryptedData = $post['encryptedData'];
         $auth_key = $post['auth_key'];
-        $auth = Yii::$app->cache->get(CacheKeyEnum::API_MINI_PROGRAM_LOGIN . $$auth_key);
+        $auth = Yii::$app->cache->get(CacheKeyEnum::API_MINI_PROGRAM_LOGIN . $auth_key);
         if(!$auth){
             return ResultDataHelper::api(403, '登陆已失效');
         }
