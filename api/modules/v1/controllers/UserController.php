@@ -37,7 +37,9 @@ class UserController  extends OnAuthController
         $aesIV=base64_decode($iv);
 
         $aesCipher=base64_decode($encryptedData);
-
+        var_dump($auth);
+        var_dump($aesCipher);
+        var_dump($aesIV);
         $result=openssl_decrypt( $aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);
         var_dump($result);
         $dataObj=json_decode( $result );
