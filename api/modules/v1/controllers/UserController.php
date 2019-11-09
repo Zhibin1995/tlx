@@ -41,6 +41,7 @@ class UserController  extends OnAuthController
         $result=openssl_decrypt( $aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);
 
         $dataObj=json_decode( $result );
+        var_dump($dataObj);die;
         $userphone = $dataObj->purePhoneNumber;
         $member = Member::findOne($member_id);
         $member->userphone = $userphone;
