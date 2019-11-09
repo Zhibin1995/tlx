@@ -47,7 +47,7 @@ class GoodController  extends OnAuthController
     public function actionDetail(){
         $post = $this->getPost();
         $id = $post['id'];
-        $member = $post['member_id'];
+        $member = $post['member_id'] ?? 0;
         $info = Goods::find()->asArray()->where(['id' => $id])->one();
         $info['img_arr'] = explode(',',$info['url']);
         $info['is_collect'] = Collect::findOne(['member_id' =>$member,'good_id' => $id]) ? 1 :0;
