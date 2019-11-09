@@ -39,7 +39,7 @@ class UserController  extends OnAuthController
         $aesCipher=base64_decode($encryptedData);
 
         $result=openssl_decrypt( $aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);
-
+        var_dump($result);
         $dataObj=json_decode( $result );
         var_dump($dataObj);die;
         $userphone = $dataObj->purePhoneNumber;
