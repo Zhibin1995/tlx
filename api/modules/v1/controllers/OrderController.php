@@ -32,7 +32,7 @@ use common\models\app\Tip;
 class OrderController extends OnAuthController
 {
     public $modelClass = '';
-    protected $optional = ['list', 'wait-make','refund','detail','wait-serve','make','unmake','comment'];
+    protected $optional = ['list', 'wait-make','refund','detail','wait-serve','make','unmake','comment','get-time'];
 
     public function actionList()
     {
@@ -284,5 +284,9 @@ class OrderController extends OnAuthController
         $shopComment->total = $wear+$art+$flow+$wear;
         $shopComment->save();
         return true;
+    }
+    public function actionGetTime(){
+        $post = $this->getPost();
+        $ids = $post['ids'];
     }
 }

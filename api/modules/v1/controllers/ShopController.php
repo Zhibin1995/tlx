@@ -33,7 +33,7 @@ class ShopController  extends OnAuthController
         $post = $this->getPost();
         $shop_id = $post['shop_id'];
         $data = $post['data'];
-        ShopTime::deleteAll(['shop_id' => $shop_id]);
+        ShopTime::deleteAll(['shop_id' => $shop_id ,'is_use' => 0]);
         foreach ($data as $list){
             $data = $list['date'];
             foreach ($list['time'] as $time){
