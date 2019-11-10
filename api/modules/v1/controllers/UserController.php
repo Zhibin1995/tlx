@@ -21,7 +21,7 @@ use Yii;
 class UserController  extends OnAuthController
 {
     public $modelClass = '';
-    protected $optional = ['phone', 'detail','edit'];
+    protected $optional = ['phone', 'img-upload','edit'];
     public function actionPhone(){
         $post = $this->getPost();
         $member_id = $post['member_id'];
@@ -48,5 +48,22 @@ class UserController  extends OnAuthController
         $member = Member::findOne($member_id);
         $member->userphone = $userphone;
         return $member->save();
+    }
+    //统一上传图片接口
+    public function actionImgUpload()
+    {
+        $file = $_FILES['file'];
+        $fileData = file_get_contents($file['tmp_name']);
+        $string = strrev($file['name']);
+        $array = explode('.',$string);
+        $ext= '.'.strrev($array[0]);
+        $name = time() . rand(1, 9999) . $ext;
+        $url = 'https://tlx.c63.top/attachment/uploads/images/';
+        $dir = realpath('/web/attachment') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR;
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+        file_put_contents($dir . $name, $fileData);
+        return $url . $name;
     }
 }

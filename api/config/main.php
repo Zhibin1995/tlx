@@ -115,6 +115,7 @@ return [
                         'POST detail' => 'detail',
                         'POST comment' => 'comment',
                         'POST finish' => 'finish',
+                        'POST img-upload' => 'img-upload',
                         'POST create' => 'create',
                         'POST edit' => 'edit',
                         'POST phone' => 'phone',

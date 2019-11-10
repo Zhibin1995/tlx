@@ -15,6 +15,8 @@ use common\helpers\ResultDataHelper;
 use common\models\app\Address;
 use common\models\app\Banner;
 use common\models\app\Category;
+use common\models\app\Comment;
+use common\models\app\CommentImg;
 use common\models\app\Goods;
 use common\models\app\MakeDetail;
 use common\models\app\Order;
@@ -22,6 +24,7 @@ use common\models\app\OrderDetail;
 use common\models\app\OrderMake;
 use common\models\app\Package;
 use common\models\app\Shop;
+use common\models\app\ShopComment;
 use common\models\app\Show;
 use common\models\app\SysSet;
 use common\models\app\Tip;
@@ -29,7 +32,7 @@ use common\models\app\Tip;
 class OrderController extends OnAuthController
 {
     public $modelClass = '';
-    protected $optional = ['list', 'wait-make','refund','detail','wait-serve','make','unmake'];
+    protected $optional = ['list', 'wait-make','refund','detail','wait-serve','make','unmake','comment'];
 
     public function actionList()
     {
@@ -248,6 +251,38 @@ class OrderController extends OnAuthController
     public function actionComment(){
         $post = $this->getPost();
         $id = $post['id'];
-        return $id;
+        $member_id = $post['member_id'];
+        $is_hide = $post['is_hide'] ?? 0;
+        $content = $post['content'];
+        $img = $post['img'] ?? [];
+        $serve = $post['serve'] ?? 0;
+        $art = $post['art'] ?? 0;
+        $flow = $post['flow'] ?? 0;
+        $wear = $post['wear'] ?? 0;
+        $detail = OrderDetail::findOne($id);
+        $make = OrderMake::findOne($detail->make_id);
+        $goodComment = new Comment();
+        $goodComment->member_Id = $member_id;
+        $goodComment->good_id = $detail->good_id;
+        $goodComment->content = $content;
+        $goodComment->is_hide = $is_hide;
+        $goodComment->save();
+        if($img){
+            foreach ($img as $item){
+                $img_model = new CommentImg();
+                $img_model->comment_Id = $goodComment->id;
+                $img_model->url = $item;
+                $img_model->save();
+            }
+        }
+        $shopComment = new ShopComment();
+        $shopComment->shop_id = $make->shop_id;
+        $shopComment->serve = $serve;
+        $shopComment->art = $art;
+        $shopComment->flow = $flow;
+        $shopComment->wear = $wear;
+        $shopComment->total = $wear+$art+$flow+$wear;
+        $shopComment->save();
+        return true;
     }
 }
