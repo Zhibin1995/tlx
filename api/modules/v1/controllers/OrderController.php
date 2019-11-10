@@ -224,7 +224,7 @@ class OrderController extends OnAuthController
         $start = $post['start'];
         $end = $post['end'];
         $times = $post['times'];
-        $shop_id = 1;
+        $shop_id = $post['shop_id'];
         $code = rand(100000,999999);
         $model = new OrderMake();
         $model->member_id = $member_id;
