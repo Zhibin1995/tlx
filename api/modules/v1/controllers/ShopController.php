@@ -33,15 +33,15 @@ class ShopController  extends OnAuthController
         $post = $this->getPost();
         $shop_id = $post['shop_id'];
         $data = $post['data'];
-        ShopTime::deleteAll(['shop_id' => $shop_id ,'is_use' => 0]);
         foreach ($data as $list){
-            $data = $list['date'];
+            $date = $list['date'];
+            ShopTime::deleteAll(['shop_id' => $shop_id ,'is_use' => 0,'date' => strtotime($date)]);
             foreach ($list['time'] as $time){
-                $start = $data . $time['start'];
-                $end = $data . $time['end'];
+                $start = $date . $time['start'];
+                $end = $date . $time['end'];
                 $shoptime = new ShopTime();
                 $shoptime->shop_id = $shop_id;
-                $shoptime->date = strtotime($data);
+                $shoptime->date = strtotime($date);
                 $shoptime->start_time = strtotime($start);
                 $shoptime->end_time = strtotime($end);
                 $shoptime->save();
@@ -71,5 +71,9 @@ class ShopController  extends OnAuthController
             ];
         }
         return $res;
+    }
+    public function actionOrder(){
+        $post = $this->getPost();
+        $shop_id = $post['shop_id'];
     }
 }
