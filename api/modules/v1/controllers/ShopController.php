@@ -12,13 +12,14 @@ namespace api\modules\v1\controllers;
 
 use api\controllers\OnAuthController;
 use common\helpers\ResultDataHelper;
+use common\models\app\OrderMake;
 use common\models\app\Shop;
 use common\models\app\ShopTime;
 
 class ShopController  extends OnAuthController
 {
     public $modelClass = '';
-    protected $optional = ['login','create-time','get-time'];
+    protected $optional = ['login','create-time','get-time','order'];
     public function actionLogin(){
         $post = $this->getPost();
         $userphone = $post['userphone'];
@@ -75,5 +76,22 @@ class ShopController  extends OnAuthController
     public function actionOrder(){
         $post = $this->getPost();
         $shop_id = $post['shop_id'];
+        $date = $post['date'];
+        $start = strtotime($date.'-01');
+        $end = strtotime(date($date.'-1',strtotime('next month')).'-1 day');
+
+        $query = OrderMake::find();
+        $query->andWhere(['status' => 1]);
+        $query->andWhere(['shop_id' => $shop_id]);
+        $query->andWhere(['make_status' => 2]);
+        $query->andWhere(['>=','finsh' ,$start]);
+        $query->andWhere(['<=','finsh' ,$end]);
+        $month =$query->count();
+        $total = OrderMake::find()->andWhere(['status' => 1])->andWhere(['shop_id' => $shop_id])->andWhere(['make_status' => 2])->count();
+        $res = [
+            "month_total" => $month,
+            'total' => $total
+        ];
+        return $res;
     }
 }

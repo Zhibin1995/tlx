@@ -117,6 +117,7 @@ return [
                         'POST finish' => 'finish',
                         'POST img-upload' => 'img-upload',
                         'POST digg' => 'digg',
+                        'POST order' => 'order',
                         'POST watch' => 'watch',
                         'POST create' => 'create',
                         'POST edit' => 'edit',

@@ -30,10 +30,17 @@ class MakeController  extends OnAuthController
         $offset = ($page - 1 )*$size;
         $status = $post['status'];
         $shop_id = $post['shop_id'];
+        $date = $post['date'] ?? '';
         $query = OrderMake::find();
         $query->andWhere(['status' => 1]);
         $query->andWhere(['shop_id' => $shop_id]);
         $query->andWhere(['make_status' => $status]);
+        if($date){
+            $start = strtotime($date.'-01');
+            $end = strtotime(date($date.'-1',strtotime('next month')).'-1 day');
+            $query->andWhere(['>=','finsh' ,$start]);
+            $query->andWhere(['<=','finsh' ,$end]);
+        }
         $list =$query->offset($offset)->limit($size)->asArray()->all();
         foreach ($list as $k => $item){
             $order = OrderDetail::find()->where(['in','id',$item['detail_ids']])->all();
