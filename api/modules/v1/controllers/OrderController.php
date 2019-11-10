@@ -233,8 +233,8 @@ class OrderController extends OnAuthController
         $model->remark = $remark;
         $model->date_string = $date_string;
         $model->date = strtotime($year);
-        $model->start = strtotime($year.' '.$start);
-        $model->end = strtotime($year.' '.$end);
+        $model->start = strtotime($year.' '.$start.":00");
+        $model->end = strtotime($year.' '.$end.":00");
         $model->shop_id = $shop_id;
         $model->code = $code;
         $model->hour = sizeof($times) * 2;
@@ -299,7 +299,8 @@ class OrderController extends OnAuthController
             ->andWhere(['province_id' => $province_id])
             ->select('id')->column();
         $rank = ShopComment::find()->select('shop_id,sum(total) as total')->where(['in','shop_id',$shop_id])->orderBy('total desc')->groupBy('shop_id')->all();
-
-
+        foreach ($rank as $item){
+//            $item['shop_id']
+        }
     }
 }
