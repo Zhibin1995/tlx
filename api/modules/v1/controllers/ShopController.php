@@ -61,7 +61,8 @@ class ShopController  extends OnAuthController
             foreach ($time_arr as $time){
                 $time_res []= [
                     'start' => date('H:i',$time->start_time),
-                    'end' => date('H:i',$time->end_time)
+                    'end' => date('H:i',$time->end_time),
+                    'status' => $time->is_use ? 2 : 1
                 ];
             }
             $res[] = [
