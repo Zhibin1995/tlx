@@ -20,6 +20,7 @@ use api\controllers\OnAuthController;
 class FileController extends OnAuthController
 {
     public $modelClass = '';
+    protected $optional = ['images', 'wait-make','refund','detail','wait-serve','make','unmake','comment','get-time'];
 
     /**
      * 图片上传

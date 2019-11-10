@@ -287,6 +287,19 @@ class OrderController extends OnAuthController
     }
     public function actionGetTime(){
         $post = $this->getPost();
-        $ids = $post['ids'];
+        //$ids = $post['ids'];
+        $times = $post['times'];
+        $date = $post['date'];
+        $area_id = $post["area_id"];
+        $city_id = $post['city_id'];
+        $province_id = $post['province_id'];
+        $shop_id = Shop::find()
+            ->andWhere(['area_id' => $area_id])
+            ->andWhere(['city_id' => $city_id])
+            ->andWhere(['province_id' => $province_id])
+            ->select('id')->column();
+        $rank = ShopComment::find()->select('shop_id,sum(total) as total')->where(['in','shop_id',$shop_id])->orderBy('total desc')->groupBy('shop_id')->all();
+
+
     }
 }
