@@ -238,6 +238,7 @@ class OrderController extends OnAuthController
         $model->shop_id = $shop_id;
         $model->code = $code;
         $model->hour = sizeof($times) * 2;
+        var_dump($model);die;
         return $model->save();
     }
     public function actionUnmake(){
