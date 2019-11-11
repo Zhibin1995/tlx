@@ -54,6 +54,10 @@ class MakeController  extends OnAuthController
                 $goods[] = $good;
             }
             $list[$k]['goods'] = $goods;
+            $address = Address::findOne($item['address_id']);
+            $list[$k]['username'] = $address->realname;
+            $list[$k]['userphone'] = $address->mobile;
+            $list[$k]['username'] = $address->address_name.$address->address_details;
         }
         return $list;
     }
