@@ -19,7 +19,7 @@ use common\models\app\ShopTime;
 class GoodcaseController  extends OnAuthController
 {
     public $modelClass = '';
-    protected $optional = ['list'];
+    protected $optional = ['list','watch'];
     public function actionList(){
         $post = $this->getPost();
         $page = $post['page'] ?? 1;
@@ -33,5 +33,12 @@ class GoodcaseController  extends OnAuthController
         }
         $list =$query->offset($offset)->limit($size)->asArray()->all();
         return $list;
+    }
+    public function actionWatch(){
+        $post = $this->getPost();
+        $id = $post['id'];
+        $model = Goodcase::findOne($id);
+        $model->count +=1;
+        return $model->save();
     }
 }

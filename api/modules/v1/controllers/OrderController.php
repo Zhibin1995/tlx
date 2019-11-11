@@ -25,6 +25,7 @@ use common\models\app\OrderMake;
 use common\models\app\Package;
 use common\models\app\Shop;
 use common\models\app\ShopComment;
+use common\models\app\ShopTime;
 use common\models\app\Show;
 use common\models\app\SysSet;
 use common\models\app\Tip;
@@ -32,7 +33,7 @@ use common\models\app\Tip;
 class OrderController extends OnAuthController
 {
     public $modelClass = '';
-    protected $optional = ['list', 'wait-make','refund','detail','wait-serve','make','unmake','comment','get-time'];
+    protected $optional = ['list', 'wait-make','refund','detail','wait-serve','make','unmake','comment','get-time','new-make'];
 
     public function actionList()
     {
@@ -301,7 +302,43 @@ class OrderController extends OnAuthController
             ->select('id')->column();
         $rank = ShopComment::find()->select('shop_id,sum(total) as total')->where(['in','shop_id',$shop_id])->orderBy('total desc')->groupBy('shop_id')->all();
         foreach ($rank as $item){
-//            $item['shop_id']
+            $count = ShopTime::find()->where(['shop_id' => $item['shop_id'], 'date' => strtotime($date),'is_use' =>0])->asArray()->all();
+            if(sizeof($count) >= $times*2){
+                $res = [];
+                foreach ($count as $item){
+                    $res_arr['start'] = date('H:i',$item['start_time']);
+                    $res_arr['end'] = date('H:i',$item['end_time']);
+                    $res_arr['status'] = $item['is_use'] ? 2:1;
+                    $res[] = $res_arr;
+                }
+                $ret = [
+                    'shop_id' => $item['shop_id'],
+                    'time' => $res
+                ];
+                return $ret;
+            }
+
         }
+        return ResultDataHelper::api(201, '暂时没有可预约的师傅');
+    }
+    public function actionNewMake(){
+        $post = $this->getPost();
+        $id = $post['id'];
+        $date_string = $post['string'];
+        $year = $post['year'];
+        $start = $post['start'];
+        $end = $post['end'];
+        $times = $post['times'];
+        $shop_id = $post['shop_id'];
+        $code = 000000;
+        $model = OrderMake::findOne($id);
+        $model->date_string = $date_string;
+        $model->date = strtotime($year);
+        $model->start = strtotime($year.' '.$start.":00");
+        $model->end = strtotime($year.' '.$end.":00");
+        $model->shop_id = $shop_id;
+        $model->code = $code;
+        $model->hour = sizeof($times) * 2;
+        return $model->save(false);
     }
 }
