@@ -22,7 +22,7 @@ use common\models\app\Shop;
 class MakeController  extends OnAuthController
 {
     public $modelClass = '';
-    protected $optional = ['list','finish','detail'];
+    protected $optional = ['list','finish','detail','agree'];
     public function actionList(){
         $post = $this->getPost();
         $page = $post['page'] ?? 1;
@@ -113,5 +113,11 @@ class MakeController  extends OnAuthController
             'make_info' => $make_info
         ];
         return $res;
+    }
+    public function actionAgree(){
+        $post = $this->getPost();
+        $model = OrderMake::findOne($post['id']);
+        $model->make_status = 1;
+        return $model->save();
     }
 }
