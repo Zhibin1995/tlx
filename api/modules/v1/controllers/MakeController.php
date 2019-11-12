@@ -101,7 +101,12 @@ class MakeController  extends OnAuthController
             'remark' => $info['remark']
         ];
         $detail = MakeDetail::find()->where(['make_id' => $id])->asArray()->all() ?? [];
-        $make_info = [];
+        $make_info = [
+            'finish_time' => '',
+            'name' => '',
+            'position' => '',
+            'code' => ''
+        ];
         if($info['make_status'] == 2){
             $shop = Shop::findOne($info['shop_id']);
             $make_info = [
