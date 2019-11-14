@@ -195,7 +195,7 @@ class OrderController extends OnAuthController
                 $good_info = Goods::findOne($item1->good_id);
                 $good = [];
                 $good['id'] = $good_info->id;
-                $good['num'] = $item->num;
+                $good['num'] = $item1->num;
                 $good['name'] = $good_info->name;
                 $good['desc'] = $good_info->desc;
                 $good['price'] = $good_info->price;
