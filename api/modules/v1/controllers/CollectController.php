@@ -40,10 +40,13 @@ class CollectController  extends OnAuthController
         $good_id = $post['good_id'];
         $type = $post['type'];
         if($type){
-            $c = new Collect();
-            $c->member_id = $member_id;
-            $c->good_id = $good_id;
-            $c->save();
+            $count = Collect::findOne(['member_id' => $member_id,'good_id' => $good_id]);
+            if(!$count){
+                $c = new Collect();
+                $c->member_id = $member_id;
+                $c->good_id = $good_id;
+                $c->save();
+            }
         }else{
             Collect::deleteAll(['member_id' => $member_id,'good_id' => $good_id]);
         }

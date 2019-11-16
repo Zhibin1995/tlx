@@ -167,7 +167,7 @@ class PayForm extends Model
                     $order_detail = new OrderDetail();
                     $order_detail->member_id = $this->member_id;
                     $order_detail->order_id = $order_model->id;
-                    $order_detail->good_id = $v->good_id;
+                    $order_detail->good_id = $v->goods_id;
                     $order_detail->num = $v->num;
                     $order_detail->save();
                 }
