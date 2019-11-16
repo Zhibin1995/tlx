@@ -13,12 +13,9 @@ namespace api\modules\v1\controllers;
 use api\controllers\OnAuthController;
 use common\helpers\ResultDataHelper;
 use common\models\app\Address;
-use common\models\app\Banner;
-use common\models\app\Category;
 use common\models\app\Comment;
 use common\models\app\CommentImg;
 use common\models\app\Goods;
-use common\models\app\MakeDetail;
 use common\models\app\Order;
 use common\models\app\OrderDetail;
 use common\models\app\OrderMake;
@@ -26,9 +23,6 @@ use common\models\app\Package;
 use common\models\app\Shop;
 use common\models\app\ShopComment;
 use common\models\app\ShopTime;
-use common\models\app\Show;
-use common\models\app\SysSet;
-use common\models\app\Tip;
 
 class OrderController extends OnAuthController
 {
