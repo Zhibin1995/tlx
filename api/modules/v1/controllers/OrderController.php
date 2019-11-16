@@ -204,11 +204,16 @@ class OrderController extends OnAuthController
             }
             $temp =[] ;
             $address = Address::findOne($item->address_id);
+            $shop = Shop::findOne($item->shop_id);
             $temp['id'] = $item->id;
             $temp['date'] = $item->date_string;
             $temp['status'] = $item->make_status;
             $temp['order_num'] = date('YmdHis',$item->created_at).$item->id;
             $temp['address'] = $address->address_name.$address->address_details;
+            $temp['shop_name'] = $shop->username;
+            $temp['shop_phone'] = $shop->userphone;
+            $temp['create_time'] = date('Y-m-d H:i:s',$item->created_at);
+            $temp['goods'] = $detail_arr;
             $temp['goods'] = $detail_arr;
             $res[] = $temp;
         }
