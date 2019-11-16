@@ -213,7 +213,10 @@ class OrderController extends OnAuthController
             $temp['shop_name'] = $shop->username;
             $temp['shop_phone'] = $shop->userphone;
             $temp['create_time'] = date('Y-m-d H:i:s',$item->created_at);
-            $temp['goods'] = $detail_arr;
+            $temp['city_id'] = $address->city_id;
+            $temp['province_id'] = $address->province_id;
+            $temp['area_id'] = $address->area_id;
+            $temp['times'] = $item->hour;
             $temp['goods'] = $detail_arr;
             $res[] = $temp;
         }
@@ -245,15 +248,27 @@ class OrderController extends OnAuthController
         $model->shop_id = $shop_id;
         $model->code = $code;
         $model->hour = sizeof($times) * 2;
+        $model->save(false);
+        $times_ids = ShopTime::find()->andWhere(['shop_id' => $shop_id])
+            ->andWhere(['date' => $model->date])
+            ->andWhere(['>=','start_time',$model->start])
+            ->andWhere(['<=','end_time',$model->end])
+            ->select('id')->column();
+        ShopTime::updateAll(['is_use' => 1],['in','id',$times_ids]);
+        OrderDetail::updateAll(['make_status' => 1,'make_id' =>$model->id,'make_time' => time()],['in','id',explode(',',$ids)]);
         return $model->save(false);
     }
     public function actionUnmake(){
-        //todo :ds
         $post = $this->getPost();
         $info = OrderMake::findOne($post['id']);
-        $info->make_status = 0;
-        $info = SysSet::findOne(1);
-        return $info->about;
+        OrderDetail::updateAll(['make_status' => 0,'make_id' =>'','make_time' => ''],['in','id',explode(',',$info->detail_ids)]);
+        $times_ids = ShopTime::find()->andWhere(['shop_id' => $info->shop_id])
+            ->andWhere(['date' => $info->date])
+            ->andWhere(['>=','start_time',$info->start])
+            ->andWhere(['<=','end_time',$info->end])
+            ->select('id')->column();
+        ShopTime::updateAll(['is_use' => 0],['in','id',$times_ids]);
+        return $info->delete();
     }
     public function actionComment(){
         $post = $this->getPost();
@@ -337,6 +352,12 @@ class OrderController extends OnAuthController
         $shop_id = $post['shop_id'];
         $code = 000000;
         $model = OrderMake::findOne($id);
+        $times_ids = ShopTime::find()->andWhere(['shop_id' => $model->shop_id])
+            ->andWhere(['date' => $model->date])
+            ->andWhere(['>=','start_time',$model->start])
+            ->andWhere(['<=','end_time',$model->end])
+            ->select('id')->column();
+        ShopTime::updateAll(['is_use' => 0],['in','id',$times_ids]);
         $model->date_string = $date_string;
         $model->date = strtotime($year);
         $model->start = strtotime($year.' '.$start.":00");
@@ -344,6 +365,12 @@ class OrderController extends OnAuthController
         $model->shop_id = $shop_id;
         $model->code = $code;
         $model->hour = sizeof($times) * 2;
+        $times_ids = ShopTime::find()->andWhere(['shop_id' => $model->shop_id])
+            ->andWhere(['date' => $model->date])
+            ->andWhere(['>=','start_time',$model->start])
+            ->andWhere(['<=','end_time',$model->end])
+            ->select('id')->column();
+        ShopTime::updateAll(['is_use' => 1],['in','id',$times_ids]);
         return $model->save(false);
     }
 }
