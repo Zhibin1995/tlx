@@ -41,7 +41,7 @@ class MakeController  extends OnAuthController
             $query->andWhere(['>=','finsh' ,$start]);
             $query->andWhere(['<=','finsh' ,$end]);
         }
-        $list =$query->offset($offset)->limit($size)->asArray()->all();
+        $list =$query->offset($offset)->limit($size)->orderBy('id desc')->asArray()->all();
         foreach ($list as $k => $item){
             $order = OrderDetail::find()->where(['in','id',$item['detail_ids']])->all();
             $goods = [];
@@ -88,6 +88,7 @@ class MakeController  extends OnAuthController
         $order->finsh = time();
         $order->shop_id = $shop_id;
         $order->make_status = 2;
+        OrderDetail::updateAll(['make_status' => 2],['in','id',explode(',',$order->detail_ids)]);
         return $order->save();
     }
     public function actionDetail(){

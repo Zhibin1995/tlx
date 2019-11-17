@@ -180,7 +180,7 @@ class OrderController extends OnAuthController
         $size =$post['size'] ?? 10;
         $offset = ($page - 1 )*$size;
         $member_id = $post['member_id'];
-        $list = OrderMake::find()->where(['make_status' => 0,'member_id' => $member_id])->offset($offset)->limit($size)->all();
+        $list = OrderMake::find()->andWhere(['in','make_status',[0,1]])->andWhere(['member_id' => $member_id])->offset($offset)->limit($size)->orderBy('id desc')->all();
         $res = [];
         foreach ($list as $item){
             $detail_list = OrderDetail::find()->andWhere(['in','id',explode(',',$item->detail_ids)])->all();
@@ -210,7 +210,7 @@ class OrderController extends OnAuthController
             $temp['city_id'] = $address->city_id;
             $temp['province_id'] = $address->province_id;
             $temp['area_id'] = $address->area_id;
-            $temp['times'] = $item->hour;
+            $temp['times'] = $item->hour / 2;
             $temp['goods'] = $detail_arr;
             $res[] = $temp;
         }
@@ -276,6 +276,8 @@ class OrderController extends OnAuthController
         $flow = $post['flow'] ?? 0;
         $wear = $post['wear'] ?? 0;
         $detail = OrderDetail::findOne($id);
+        $detail->make_status = 3;
+        $detail->save();
         $make = OrderMake::findOne($detail->make_id);
         $goodComment = new Comment();
         $goodComment->member_Id = $member_id;
