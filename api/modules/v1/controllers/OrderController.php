@@ -210,7 +210,7 @@ class OrderController extends OnAuthController
             $temp['city_id'] = $address->city_id;
             $temp['province_id'] = $address->province_id;
             $temp['area_id'] = $address->area_id;
-            $temp['times'] = $item->hour / 2;
+            $temp['times'] = $item->hour;
             $temp['goods'] = $detail_arr;
             $res[] = $temp;
         }
@@ -241,7 +241,7 @@ class OrderController extends OnAuthController
         $model->end = strtotime($year.' '.$end.":00");
         $model->shop_id = $shop_id;
         $model->code = $code;
-        $model->hour = sizeof($times) * 2;
+        $model->hour = sizeof($times) / 2;
         $model->save(false);
         $times_ids = ShopTime::find()->andWhere(['shop_id' => $shop_id])
             ->andWhere(['date' => $model->date])
@@ -360,7 +360,7 @@ class OrderController extends OnAuthController
         $model->end = strtotime($year.' '.$end.":00");
         $model->shop_id = $shop_id;
         $model->code = $code;
-        $model->hour = sizeof($times) * 2;
+        $model->hour = sizeof($times) / 2;
         $times_ids = ShopTime::find()->andWhere(['shop_id' => $model->shop_id])
             ->andWhere(['date' => $model->date])
             ->andWhere(['>=','start_time',$model->start])
