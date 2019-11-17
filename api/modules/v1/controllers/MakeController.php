@@ -34,10 +34,14 @@ class MakeController  extends OnAuthController
         $query = OrderMake::find();
         $query->andWhere(['status' => 1]);
         $query->andWhere(['shop_id' => $shop_id]);
-        $query->andWhere(['make_status' => $status]);
+        if($status == 2){
+            $query->andWhere(['in','make_status',[2,3]]);
+        }else{
+            $query->andWhere(['make_status' => $status]);
+        }
         if($date){
             $start = strtotime($date.'-01');
-            $end = strtotime(date($date.'-1',strtotime('next month')).'-1 day');
+            $end = strtotime(date('Y-m-01',strtotime('next month')));
             $query->andWhere(['>=','finsh' ,$start]);
             $query->andWhere(['<=','finsh' ,$end]);
         }
