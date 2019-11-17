@@ -33,7 +33,18 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id',
             'name',
             'desc',
-            'url:url',
+            [
+                'attribute' => 'url',
+                'format' => [
+                    'image',
+                    [
+                        'width'=>'200'
+                    ]
+                ],
+                'value' => function ($model) {
+                    return $model->url;
+                }
+            ],
             //'address',
             //'video_url:url',
             'count',

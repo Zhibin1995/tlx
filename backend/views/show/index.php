@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'look',
             //'status',
             //'sort',
-            'created_at',
+            'created_at:datetime',
             //'updated_at',
             [
                 'class' => 'yii\grid\ActionColumn',

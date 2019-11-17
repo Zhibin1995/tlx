@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'is_hot',
             //'status',
             //'sort',
-            'created_at',
+            //'created_at',
             //'updated_at',
             [
                 'class' => 'yii\grid\ActionColumn',

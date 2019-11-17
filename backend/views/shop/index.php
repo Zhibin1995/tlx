@@ -40,9 +40,24 @@ $this->params['breadcrumbs'][] = $this->title;
             //'sort',
             //'created_at',
             //'updated_at',
-            'province_id',
-            'city_id',
-            'area_id',
+            [
+                'attribute' => 'province_id',
+                'value' => function ($model) {
+                    return \common\models\common\Provinces::find()->select('title')->where(['id' => $model->province_id])->scalar();
+                }
+            ],
+            [
+                'attribute' => 'city_id',
+                'value' => function ($model) {
+                    return \common\models\common\Provinces::find()->select('title')->where(['id' => $model->city_id])->scalar();
+                }
+            ],
+            [
+                'attribute' => 'area_id',
+                'value' => function ($model) {
+                    return \common\models\common\Provinces::find()->select('title')->where(['id' => $model->area_id])->scalar();
+                }
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',

@@ -32,10 +32,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            'url:image',
+            [
+                'attribute' => 'url',
+                'format' => [
+                    'image',
+                    [
+                        'width'=>'200'
+                    ]
+                ],
+                'value' => function ($model) {
+                    return $model->url;
+                }
+            ],
             //'status',
             'sort',
-            'created_at',
+            'created_at:datetime',
             //'updated_at',
             [
                 'class' => 'yii\grid\ActionColumn',
