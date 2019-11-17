@@ -43,17 +43,20 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{edit} {status} {delete}',
+                'template' => '{package-goods} {edit} {status} {delete}',
                 'buttons' => [
-                'edit' => function($url, $model, $key){
-                        return Html::edit(['edit', 'id' => $model->id]);
-                },
-               'status' => function($url, $model, $key){
-                        return Html::status($model['status']);
-                  },
-                'delete' => function($url, $model, $key){
-                        return Html::delete(['delete', 'id' => $model->id]);
-                },
+                    'package-goods' => function($url, $model, $key){
+                        return "<a class=\"btn btn-primary btn-sm\" href=\"/backend/package-goods/index?package_id={$model->id}\">套餐商品</a>";
+                    },
+                    'edit' => function($url, $model, $key){
+                            return Html::edit(['edit', 'id' => $model->id]);
+                    },
+                   'status' => function($url, $model, $key){
+                            return Html::status($model['status']);
+                      },
+                    'delete' => function($url, $model, $key){
+                            return Html::delete(['delete', 'id' => $model->id]);
+                    },
                 ]
             ]
     ]

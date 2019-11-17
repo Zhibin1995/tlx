@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="box-header">
                 <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
                 <div class="box-tools">
-                    <?= Html::create(['edit']) ?>
+                    <?= Html::create(['edit', 'package_id' => $package_id]) ?>
                 </div>
             </div>
             <div class="box-body table-responsive">
@@ -30,23 +30,30 @@ $this->params['breadcrumbs'][] = $this->title;
                 'visible' => false,
             ],
 
-            'id',
+            //'id',
             //'package_id',
-            'goods_id',
+            [
+                'attribute' => 'good_id',
+                'label' => '商品名称',
+                'value' => function ($model) {
+                    return \common\models\app\Goods::find()->select('name')->where(['id' => $model->goods_id])->scalar();
+                }
+            ],
+            [
+                'attribute' => 'good_id',
+                'label' => '商品价格',
+                'value' => function ($model) {
+                    return \common\models\app\Goods::find()->select('price')->where(['id' => $model->goods_id])->scalar();
+                }
+            ],
             //'status',
-            'created_at',
+            //'created_at',
             //'updated_at',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
                 'template' => '{edit} {status} {delete}',
                 'buttons' => [
-                'edit' => function($url, $model, $key){
-                        return Html::edit(['edit', 'id' => $model->id]);
-                },
-               'status' => function($url, $model, $key){
-                        return Html::status($model['status']);
-                  },
                 'delete' => function($url, $model, $key){
                         return Html::delete(['delete', 'id' => $model->id]);
                 },

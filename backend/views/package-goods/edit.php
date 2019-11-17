@@ -25,8 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]); ?>
                 <div class="col-sm-12">
-                    <?= $form->field($model, 'package_id')->textInput() ?>
-                    <?= $form->field($model, 'goods_id')->textInput() ?>
+                    <?= $form->field($model, 'package_id')->hiddenInput()->label(false) ?>
+                    <?= $form->field($model, 'goods_id')->dropDownList($goods) ?>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12 text-center">
