@@ -16,9 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
-                <div class="box-tools">
-                    <?= Html::create(['edit']) ?>
-                </div>
             </div>
             <div class="box-body table-responsive">
     <?= GridView::widget([
@@ -32,10 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             //'about:ntext',
+            //'category_bannr',
             //'status',
             //'sort',
-            'created_at',
-            //'updated_at',
+            //'created_at',
+            'updated_at',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',

@@ -12,7 +12,7 @@ use backend\controllers\BaseController;
 * SysSet
 *
 * Class SysSetController
-* @package app\controllers
+* @package backend\controllers
 */
 class SysSetController extends BaseController
 {
@@ -48,6 +48,29 @@ class SysSetController extends BaseController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
+        ]);
+    }
+    /**
+     * 编辑/创建
+     *
+     * @return mixed
+     */
+    public function actionEdit()
+    {
+        $id = Yii::$app->request->get('id', null);
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post())) {
+            if(!$model->id){
+                $model->password = md5(md5($model->password));
+            }
+            $model->save();
+            return $this->render($this->action->id, [
+                'model' => $model,
+            ]);
+        }
+
+        return $this->render($this->action->id, [
+            'model' => $model,
         ]);
     }
 }

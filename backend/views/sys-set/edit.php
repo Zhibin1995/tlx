@@ -4,7 +4,7 @@ use common\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\SysSet */
+/* @var $model common\models\app\SysSet */
 /* @var $form yii\widgets\ActiveForm */
 
 $this->title = 'Sys Set';
@@ -25,21 +25,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]); ?>
                 <div class="col-sm-12">
-                    <?= $form->field($model, 'about')->textarea(['rows' => 6]) ?>
+                    <?= $form->field($model, 'about')->textarea() ?>
+                    <?= $form->field($model, 'category_bannr')->widget(\common\widgets\webuploader\Files::class, [
+                            'type' => 'images',
+                            'theme' => 'default',
+                            'themeConfig' => [],
+                            'config' => [
+                                // 可设置自己的上传地址, 不设置则默认地址
+                                // 'server' => '',
+                                'pick' => [
+                                    'multiple' => false,
+                                ],
+                            ]
+                    ]); ?>
                 </div>
-
-                <?= $form->field($model, 'category_banner')->widget(\common\widgets\webuploader\Files::class, [
-                    'type' => 'images',
-                    'theme' => 'default',
-                    'themeConfig' => [],
-                    'config' => [
-                        // 可设置自己的上传地址, 不设置则默认地址
-                        // 'server' => '',
-                        'pick' => [
-                            'multiple' => false,
-                        ],
-                    ]
-                ]); ?>
                 <div class="form-group">
                     <div class="col-sm-12 text-center">
                         <button class="btn btn-primary" type="submit">保存</button>

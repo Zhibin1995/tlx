@@ -49,7 +49,7 @@ class SysSet extends \common\models\base\BaseModel
             'status' => 'Status',
             'sort' => '排序',
             'created_at' => '创建时间',
-            'updated_at' => 'Updated At',
+            'updated_at' => '更新时间',
         ];
     }
 }
