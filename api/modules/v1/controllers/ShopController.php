@@ -78,16 +78,15 @@ class ShopController  extends OnAuthController
         $shop_id = $post['shop_id'];
         $date = $post['date'];
         $start = strtotime($date.'-01');
-        $end = strtotime(date($date.'-1',strtotime('next month')).'-1 day');
-
+        $end = strtotime(date('Y-m-01',strtotime('next month')));
         $query = OrderMake::find();
         $query->andWhere(['status' => 1]);
         $query->andWhere(['shop_id' => $shop_id]);
-        $query->andWhere(['make_status' => 2]);
+        $query->andWhere(['in','make_status',[2,3]]);
         $query->andWhere(['>=','finsh' ,$start]);
         $query->andWhere(['<=','finsh' ,$end]);
         $month =$query->count();
-        $total = OrderMake::find()->andWhere(['status' => 1])->andWhere(['shop_id' => $shop_id])->andWhere(['make_status' => 2])->count();
+        $total = OrderMake::find()->andWhere(['status' => 1])->andWhere(['shop_id' => $shop_id])->andWhere(['in','make_status',[2,3]])->count();
         $res = [
             "month_total" => $month,
             'total' => $total
