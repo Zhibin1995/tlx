@@ -45,7 +45,7 @@ class PayController extends OnAuthController
         $model->member_id = $post['member_id'];
 
         if (isset(PayEnum::$payTypeAction[$model->payType])) {
-            $model->notifyUrl = Url::removeMerchantIdUrl('toFront', ['/api/pay/notify']);
+            $model->notifyUrl = Url::removeMerchantIdUrl('toFront', ['/api/v1/pay/notify']);
         }
         if (!$model->validate()) {
             return ResultDataHelper::api(422, $this->getError($model));
