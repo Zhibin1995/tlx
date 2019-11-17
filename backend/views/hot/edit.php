@@ -4,11 +4,11 @@ use common\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\app\Tip */
+/* @var $model app\models\Goods */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = 'Tip';
-$this->params['breadcrumbs'][] = ['label' => 'Tips', 'url' => ['index']];
+$this->title = '编辑';
+$this->params['breadcrumbs'][] = ['label' => '列表', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]); ?>
                 <div class="col-sm-12">
-                    <?= $form->field($model, 'name')->textarea() ?>
+                    <?= $form->field($model, 'id')->dropDownList($goods) ?>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12 text-center">

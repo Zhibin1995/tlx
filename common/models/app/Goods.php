@@ -2,6 +2,7 @@
 
 namespace common\models\app;
 
+use common\helpers\ArrayHelper;
 use common\models\base\BaseModel;
 use Yii;
 
@@ -71,5 +72,14 @@ class Goods extends BaseModel
             'created_at' => '创建时间',
             'updated_at' => 'Updated At',
         ];
+    }
+    /**
+     * @param array $filter
+     * @return array
+     */
+    public static function getSelectOptions($filter=[])
+    {
+        $items = Goods::find()->filterWhere($filter)->orderBy('sort asc')->all();
+        return ArrayHelper::map($items, 'id', 'name');
     }
 }

@@ -26,9 +26,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]); ?>
                 <div class="col-sm-12">
                     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'url')->widget(\common\widgets\webuploader\Files::class, [
+                        'type' => 'images',
+                        'theme' => 'default',
+                        'themeConfig' => [],
+                        'config' => [
+                            // 可设置自己的上传地址, 不设置则默认地址
+                            // 'server' => '',
+                            'pick' => [
+                                'multiple' => false,
+                            ],
+                        ]
+                    ]); ?>
                     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'video_url')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'video_url')->widget('common\widgets\webuploader\Files', [
+                        'type' => 'videos',
+                        'config' => [ // 配置同图片上传
+                            // 'server' => \yii\helpers\Url::to(['file/files']), // 默认files 支持videos/voices/images方法验证
+                            'pick' => [
+                                'multiple' => false,
+                            ]
+                        ]
+                    ]);?>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12 text-center">

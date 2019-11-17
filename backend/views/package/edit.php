@@ -26,9 +26,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]); ?>
                 <div class="col-sm-12">
                     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'url')->widget(\common\widgets\webuploader\Files::class, [
+                        'type' => 'images',
+                        'theme' => 'default',
+                        'themeConfig' => [],
+                        'config' => [
+                            // 可设置自己的上传地址, 不设置则默认地址
+                            // 'server' => '',
+                            'pick' => [
+                                'multiple' => false,
+                            ],
+                        ]
+                    ]); ?>
                     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'desc')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'desc')->textarea() ?>
                     <?= $form->field($model, 'sort')->textInput() ?>
                 </div>
                 <div class="form-group">
