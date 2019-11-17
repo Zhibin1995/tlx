@@ -58,6 +58,8 @@ class MakeController  extends OnAuthController
             $list[$k]['username'] = $address->realname;
             $list[$k]['userphone'] = $address->mobile;
             $list[$k]['address'] = $address->address_name.$address->address_details;
+            $list[$k]['lat'] = $address->lat;
+            $list[$k]['lng'] = $address->lng;
         }
         return $list;
     }

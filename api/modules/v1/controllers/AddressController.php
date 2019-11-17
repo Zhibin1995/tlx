@@ -45,6 +45,8 @@ class AddressController  extends OnAuthController
         $address->is_default = $post['is_default'] ?? 0;
         $address->realname = $post['realname'];
         $address->mobile = $post['mobile'];
+        $address->lat = $post['lat'];
+        $address->lng = $post['lng'];
         return $address->save();
     }
     public function actionEdit(){
@@ -58,6 +60,8 @@ class AddressController  extends OnAuthController
         $address->is_default = $post['is_default'] ?? 0;
         $address->realname = $post['realname'];
         $address->mobile = $post['mobile'];
+        $address->lat = $post['lat'];
+        $address->lng = $post['lng'];
         return $address->save();
     }
     public function actionDelete()

@@ -44,7 +44,7 @@ class OrderController extends OnAuthController
         if($status){
             $query->andWhere(['in','pay_status',[2,3]]);
         }
-        $list =$query->offset($offset)->limit($size)->asArray()->all();
+        $list =$query->offset($offset)->limit($size)->orderBy('id desc')->asArray()->all();
         $res = [];
         foreach ($list as $item){
             if($item['type'] == 1){
