@@ -26,8 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]); ?>
                 <div class="col-sm-12">
                     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'position')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($model, 'userphone')->textInput(['maxlength' => true]) ?>
+                    <?php if(!$model->id):?>
                     <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
+                    <?php endif;?>
                     <?= $form->field($model, 'img_url')->widget(\common\widgets\webuploader\Files::class, [
                             'type' => 'images',
                             'theme' => 'default',
@@ -41,6 +44,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]
                     ]); ?>
                 </div>
+                <?= \backend\widgets\provinces\Provinces::widget([
+                    'form' => $form,
+                    'model' => $model,
+                    'provincesName' => 'province_id',// 省字段名
+                    'cityName' => 'city_id',// 市字段名
+                    'areaName' => 'area_id',// 区字段名
+                    'template' => 'short' //合并为一行显示
+                ]); ?>
                 <div class="form-group">
                     <div class="col-sm-12 text-center">
                         <button class="btn btn-primary" type="submit">保存</button>

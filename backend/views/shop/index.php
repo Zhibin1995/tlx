@@ -32,13 +32,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id',
             'username',
+            'position',
             'userphone',
             //'password',
-            'img_url:url',
+            //'img_url:url',
             //'status',
             //'sort',
             //'created_at',
             //'updated_at',
+            'province_id',
+            'city_id',
+            'area_id',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',

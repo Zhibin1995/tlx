@@ -32,9 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id',
             'name',
+            'desc',
             'url:url',
-            'address',
+            //'address',
             //'video_url:url',
+            'count',
             //'status',
             //'sort',
             //'created_at',

@@ -52,6 +52,7 @@ class Goodcase extends \common\models\base\BaseModel
             'url' => '图片',
             'address' => '地址',
             'video_url' => '视频',
+            'count' => '观看数量',
             'status' => 'Status',
             'sort' => '排序',
             'created_at' => '创建时间',

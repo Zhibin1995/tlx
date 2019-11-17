@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace backend\controllers;
 
 use Yii;
 use common\models\app\Shop;
@@ -12,7 +12,7 @@ use backend\controllers\BaseController;
 * Shop
 *
 * Class ShopController
-* @package app\controllers
+* @package backend\controllers
 */
 class ShopController extends BaseController
 {

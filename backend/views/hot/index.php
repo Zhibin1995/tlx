@@ -31,7 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             'id',
-            'category_id',
+            [
+                'attribute' => 'category_id',
+                'value' => function ($model) {
+                    return \common\models\app\Category::find()->select('name')->where(['id' => $model->category_id])->scalar();
+                }
+            ],
             'name',
             //'url:url',
             //'desc',

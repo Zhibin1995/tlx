@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]); ?>
                 <div class="col-sm-12">
                     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'desc')->textarea() ?>
                     <?= $form->field($model, 'url')->widget(\common\widgets\webuploader\Files::class, [
                             'type' => 'images',
                             'theme' => 'default',
@@ -40,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]); ?>
                     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($model, 'video_url')->widget(\common\widgets\webuploader\Files::class, [
-                            'type' => 'files',
+                            'type' => 'videos',
                             'theme' => 'default',
                             'themeConfig' => [],
                             'config' => [

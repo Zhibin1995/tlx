@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace backend\controllers;
 
 use Yii;
 use common\models\app\Goodcase;
@@ -12,7 +12,7 @@ use backend\controllers\BaseController;
 * Goodcase
 *
 * Class GoodcaseController
-* @package app\controllers
+* @package backend\controllers
 */
 class GoodcaseController extends BaseController
 {
