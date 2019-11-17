@@ -13,7 +13,7 @@ use Yii;
  * @property int $order_id 订单
  * @property int $good_id 商品
  * @property int $num 数量
- * @property int $make_status 预约状态
+ * @property int $make_status 预约状态 1：待预约 2：待服务 3：待评价 4：已完成
  * @property int $make_time 预约时间
  * @property int $is_refund 是否退款
  * @property int $status 状态(-1:已删除,0:禁用,1:正常)

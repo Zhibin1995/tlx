@@ -92,7 +92,7 @@ class MakeController  extends OnAuthController
         $order->finsh = time();
         $order->shop_id = $shop_id;
         $order->make_status = 2;
-        OrderDetail::updateAll(['make_status' => 2],['in','id',explode(',',$order->detail_ids)]);
+        OrderDetail::updateAll(['make_status' => 3],['in','id',explode(',',$order->detail_ids)]);
         return $order->save();
     }
     public function actionDetail(){

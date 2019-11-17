@@ -123,10 +123,10 @@ class OrderController extends OnAuthController
             $good['price'] = $good_info->price;
             $good['time'] = $good_info->times;
             $good['img'] = explode(',',$good_info->url)[0];
-            if($item->make_status >= 2){
+            if($item->make_status >= 3){
                 $make = OrderMake::findOne($item->make_id);
                 $good['shop_name'] = Shop::find()->where(['id' => $make->shop_id])->select('username')->scalar();
-                if($item->make_status == 3){
+                if($item->make_status == 4){
                     $good['finish_time'] = date('Y-m-d H:i:s',$make->finsh);
                 }
             }
@@ -249,13 +249,13 @@ class OrderController extends OnAuthController
             ->andWhere(['<=','end_time',$model->end])
             ->select('id')->column();
         ShopTime::updateAll(['is_use' => 1],['in','id',$times_ids]);
-        OrderDetail::updateAll(['make_status' => 1,'make_id' =>$model->id,'make_time' => time()],['in','id',explode(',',$ids)]);
+        OrderDetail::updateAll(['make_status' => 2,'make_id' =>$model->id,'make_time' => time()],['in','id',explode(',',$ids)]);
         return $model->save(false);
     }
     public function actionUnmake(){
         $post = $this->getPost();
         $info = OrderMake::findOne($post['id']);
-        OrderDetail::updateAll(['make_status' => 0,'make_id' =>'','make_time' => ''],['in','id',explode(',',$info->detail_ids)]);
+        OrderDetail::updateAll(['make_status' => 1,'make_id' =>'','make_time' => ''],['in','id',explode(',',$info->detail_ids)]);
         $times_ids = ShopTime::find()->andWhere(['shop_id' => $info->shop_id])
             ->andWhere(['date' => $info->date])
             ->andWhere(['>=','start_time',$info->start])
@@ -276,7 +276,7 @@ class OrderController extends OnAuthController
         $flow = $post['flow'] ?? 0;
         $wear = $post['wear'] ?? 0;
         $detail = OrderDetail::findOne($id);
-        $detail->make_status = 3;
+        $detail->make_status = 4;
         $detail->save();
         $make = OrderMake::findOne($detail->make_id);
         $goodComment = new Comment();
