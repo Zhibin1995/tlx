@@ -22,7 +22,7 @@ use common\models\app\Tip;
 class IndexController extends OnAuthController
 {
     public $modelClass = '';
-    protected $optional = ['banner', 'category','package','hot','show','about','tip'];
+    protected $optional = ['banner', 'category','package','hot','show','about','tip','category-banner'];
 
     public function actionBanner()
     {
@@ -55,5 +55,9 @@ class IndexController extends OnAuthController
     public function actionAbout(){
         $info = SysSet::findOne(1);
         return $info->about;
+    }
+    public function actionCategoryBanner(){
+        $info = SysSet::findOne(1);
+        return $info->category_bannr;
     }
 }

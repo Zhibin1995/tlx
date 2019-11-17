@@ -27,6 +27,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-sm-12">
                     <?= $form->field($model, 'about')->textarea(['rows' => 6]) ?>
                 </div>
+
+                <?= $form->field($model, 'category_banner')->widget(\common\widgets\webuploader\Files::class, [
+                    'type' => 'images',
+                    'theme' => 'default',
+                    'themeConfig' => [],
+                    'config' => [
+                        // 可设置自己的上传地址, 不设置则默认地址
+                        // 'server' => '',
+                        'pick' => [
+                            'multiple' => false,
+                        ],
+                    ]
+                ]); ?>
                 <div class="form-group">
                     <div class="col-sm-12 text-center">
                         <button class="btn btn-primary" type="submit">保存</button>

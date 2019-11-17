@@ -50,4 +50,25 @@ class ShopController extends BaseController
             'searchModel' => $searchModel,
         ]);
     }
+    /**
+     * 编辑/创建
+     *
+     * @return mixed
+     */
+    public function actionEdit()
+    {
+        $id = Yii::$app->request->get('id', null);
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post())) {
+            if(!$model->id){
+                $model->password = md5(md5($model->password));
+            }
+            $model->save();
+            return $this->redirect(['index']);
+        }
+
+        return $this->render($this->action->id, [
+            'model' => $model,
+        ]);
+    }
 }

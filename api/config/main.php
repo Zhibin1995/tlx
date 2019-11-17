@@ -108,6 +108,7 @@ return [
                         'GET hot' => 'hot',
                         'GET show' => 'show',
                         'GET about' => 'about',
+                        'GET category-banner' => 'category-banner',
                         'GET default' => 'default',
                         'GET tip' => 'tip',
                         'POST notify' => 'notify',
