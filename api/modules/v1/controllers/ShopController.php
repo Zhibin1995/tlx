@@ -26,7 +26,7 @@ class ShopController  extends OnAuthController
         $password = $post['password'];
         $model = Shop::find()->where(['userphone' => $userphone,'password' => md5(md5($password))])->asArray()->one();
         if(!$model){
-            return ResultDataHelper::api(422, $this->getError($model));
+            return ResultDataHelper::api(422, '密码错误');
         }
         return $model;
     }
