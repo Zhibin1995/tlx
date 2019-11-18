@@ -43,7 +43,7 @@ class Goods extends BaseModel
         return [
             [['category_id', 'sale_num', 'is_hot', 'status', 'sort', 'created_at', 'updated_at'], 'integer'],
             [['price', 'old_price'], 'number'],
-            [['detail'], 'string'],
+            [['detail','times'], 'string'],
             [['name', 'spec'], 'string', 'max' => 255],
             [['url'], 'safe'],
             [['desc'], 'string', 'max' => 511],
@@ -66,6 +66,7 @@ class Goods extends BaseModel
             'spec' => '规格',
             'detail' => '详情',
             'sale_num' => '销量',
+            'times' => '耗时',
             'is_hot' => '是否推荐',
             'status' => 'Status',
             'sort' => '排序',

@@ -43,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($model, 'old_price')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($model, 'spec')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'times')->textInput() ?>
                     <?= $form->field($model, 'detail')->widget(\common\widgets\ueditor\UEditor::class, []) ?>
                     <?= $form->field($model, 'sort')->textInput() ?>
                 </div>
