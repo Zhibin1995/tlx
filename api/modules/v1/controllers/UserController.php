@@ -24,26 +24,23 @@ class UserController  extends OnAuthController
     protected $optional = ['phone', 'img-upload','edit'];
     public function actionPhone(){
         $post = $this->getPost();
+        $app_id = Yii::$app->debris->config('miniprogram_appid');
+        $secret = Yii::$app->debris->config('miniprogram_secret');
+        $code = $post['code'];
+        $url = "https://api.weixin.qq.com/sns/jscode2session?{$app_id}=APPID&secret={$secret}&js_code={$code}&grant_type=authorization_code";
+        $res = Yii::$app->services->pay->httpRequest($url);
+        $res_arr = json_decode($res,true);
+        if($res_arr['errcode']){
+            return ResultDataHelper::api(403, $res_arr['errmsg']);
+        }
         $member_id = $post['member_id'];
         $iv = $post['iv'];
         $encryptedData = $post['encryptedData'];
-        $auth_key = $post['auth_key'];
-        $auth = Yii::$app->cache->get(CacheKeyEnum::API_MINI_PROGRAM_LOGIN . $auth_key);
-        if(!$auth){
-            return ResultDataHelper::api(403, '登陆已失效');
-        }
-        $aesKey = $auth['session_key'];
-
+        $aesKey = $res_arr['session_key'];
         $aesIV=base64_decode($iv);
-
         $aesCipher=base64_decode($encryptedData);
-        var_dump($auth);
-        var_dump($aesCipher);
-        var_dump($aesIV);
         $result=openssl_decrypt( $aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);
-        var_dump($result);
         $dataObj=json_decode( $result );
-        var_dump($dataObj);die;
         $userphone = $dataObj->purePhoneNumber;
         $member = Member::findOne($member_id);
         $member->userphone = $userphone;
