@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\app\ShopComment;
 use Yii;
 use common\models\app\Shop;
 use common\components\Curd;
@@ -62,6 +63,15 @@ class ShopController extends BaseController
         if ($model->load(Yii::$app->request->post())) {
             if(!$model->id){
                 $model->password = md5(md5($model->password));
+                $model->save();
+                $shop_comment = new ShopComment();
+                $shop_comment->shop_id = $model->id;
+                $shop_comment->serve = 5;
+                $shop_comment->wear = 5;
+                $shop_comment->art = 5;
+                $shop_comment->flow = 5;
+                $shop_comment->total = 20;
+                $shop_comment->save();
             }
             $model->save();
             return $this->redirect(['index']);
