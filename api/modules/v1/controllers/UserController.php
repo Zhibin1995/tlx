@@ -36,7 +36,7 @@ class UserController  extends OnAuthController
         $member_id = $post['member_id'];
         $iv = $post['iv'];
         $encryptedData = $post['encryptedData'];
-        $aesKey = $res_arr['session_key'];
+        $aesKey = base64_decode($res_arr['session_key']);
         $aesIV=base64_decode($iv);
         $aesCipher=base64_decode($encryptedData);
         $result=openssl_decrypt( $aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);

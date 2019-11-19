@@ -23,6 +23,7 @@ use common\models\app\Package;
 use common\models\app\Shop;
 use common\models\app\ShopComment;
 use common\models\app\ShopTime;
+use Yii;
 
 class OrderController extends OnAuthController
 {
@@ -243,6 +244,8 @@ class OrderController extends OnAuthController
         $model->code = $code;
         $model->hour = sizeof($times) / 2;
         $model->save(false);
+        $address = Address::findOne($address_id);
+        //Yii::$app->services->sms->send($address->mobile, $code, '', $member_id);
         $times_ids = ShopTime::find()->andWhere(['shop_id' => $shop_id])
             ->andWhere(['date' => $model->date])
             ->andWhere(['>=','start_time',$model->start])
@@ -346,7 +349,6 @@ class OrderController extends OnAuthController
         $end = $post['end'];
         $times = $post['times'];
         $shop_id = $post['shop_id'];
-        $code = 000000;
         $model = OrderMake::findOne($id);
         $times_ids = ShopTime::find()->andWhere(['shop_id' => $model->shop_id])
             ->andWhere(['date' => $model->date])
@@ -359,7 +361,6 @@ class OrderController extends OnAuthController
         $model->start = strtotime($year.' '.$start.":00");
         $model->end = strtotime($year.' '.$end.":00");
         $model->shop_id = $shop_id;
-        $model->code = $code;
         $model->hour = sizeof($times) / 2;
         $times_ids = ShopTime::find()->andWhere(['shop_id' => $model->shop_id])
             ->andWhere(['date' => $model->date])
