@@ -29,12 +29,8 @@ class UserController  extends OnAuthController
         $code = $post['code'];
         $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$app_id}&secret={$secret}&js_code={$code}&grant_type=authorization_code";
         $res = Yii::$app->services->pay->httpRequest($url);
-        var_dump($res);
-
         $res_arr = json_decode($res,true);
-        var_dump($res_arr);
-
-        if($res_arr['errcode']){
+        if(isset($res_arr['errcode']) && $res_arr['errcode']){
             return ResultDataHelper::api(403, $res_arr['errmsg']);
         }
         $member_id = $post['member_id'];
