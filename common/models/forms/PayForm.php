@@ -150,13 +150,21 @@ class PayForm extends Model
                     'open_id' => $member->open_id
                 ];
                 break;
-            case  PayEnum::ORDER_GROUP:
-                // TODO 查询充值生成充值订单
-                $orderSn = '';
-                $totalFee = '';
+            case  'repay':
+                $order_id = $data['id'];
+            
+                $order_model->package_id = $package_id;
+                $order_model->type = 2;
+                $order_model->num = 1;
+                $order_model->amount = $package->price;
+                $order_model->save();
+                $member = Member::findOne($this->member_id);
+//                $totalFee = (int)$package->price*100;
+                $totalFee = 1;
                 $order = [
-                    'body' => '',
+                    'body' => 'package',
                     'total_fee' => $totalFee,
+                    'open_id' => $member->open_id
                 ];
                 break;
             default:
