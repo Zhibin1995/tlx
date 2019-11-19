@@ -113,19 +113,19 @@ class PayForm extends Model
     protected function getBaseOrderInfo()
     {
         $data = $this->data;
-        $num = $amount = 0;
-        $address = Address::findOne($this->address_id);
-        $order_model = new Order();
-        $order_model->member_id = $this->member_id;
-        $order_model->order_no = $this->createOrderNo();
-        $order_model->username = $address->realname;
-        $order_model->userphone = $address->mobile;
-        $order_model->address = $address->address_name.$address->address_details;
-        $order_model->num = $num;
-        $order_model->amount = $amount;
-        $order_model->save();
         switch ($this->orderGroup) {
             case PayEnum::ORDER_GROUP_GOODS :
+                $num = $amount = 0;
+                $address = Address::findOne($this->address_id);
+                $order_model = new Order();
+                $order_model->member_id = $this->member_id;
+                $order_model->order_no = $this->createOrderNo();
+                $order_model->username = $address->realname;
+                $order_model->userphone = $address->mobile;
+                $order_model->address = $address->address_name.$address->address_details;
+                $order_model->num = $num;
+                $order_model->amount = $amount;
+                $order_model->save();
                 // TODO 查询订单获取订单信息
                 foreach ($data as $v){
                     $order_detail = new OrderDetail();
@@ -150,24 +150,32 @@ class PayForm extends Model
                     'open_id' => $member->open_id
                 ];
                 break;
-            case  'repay':
+            case  PayEnum::ORDER_REPAY:
                 $order_id = $data['id'];
-            
-                $order_model->package_id = $package_id;
-                $order_model->type = 2;
-                $order_model->num = 1;
-                $order_model->amount = $package->price;
+                $order_model = Order::findOne($order_id);
+                $order_model->order_no = $this->createOrderNo();
                 $order_model->save();
                 $member = Member::findOne($this->member_id);
 //                $totalFee = (int)$package->price*100;
                 $totalFee = 1;
                 $order = [
-                    'body' => 'package',
+                    'body' => 'repay',
                     'total_fee' => $totalFee,
                     'open_id' => $member->open_id
                 ];
                 break;
             default:
+                $num = $amount = 0;
+                $address = Address::findOne($this->address_id);
+                $order_model = new Order();
+                $order_model->member_id = $this->member_id;
+                $order_model->order_no = $this->createOrderNo();
+                $order_model->username = $address->realname;
+                $order_model->userphone = $address->mobile;
+                $order_model->address = $address->address_name.$address->address_details;
+                $order_model->num = $num;
+                $order_model->amount = $amount;
+                $order_model->save();
                 $package_id = $data['package_id'];
                 $package = Package::findOne($package_id);
                 $package_goods = PackageGoods::find()->where(['package_id' => $package_id])->all();
