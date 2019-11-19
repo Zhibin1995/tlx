@@ -27,7 +27,7 @@ class UserController  extends OnAuthController
         $app_id = Yii::$app->debris->config('miniprogram_appid');
         $secret = Yii::$app->debris->config('miniprogram_secret');
         $code = $post['code'];
-        $url = "https://api.weixin.qq.com/sns/jscode2session?{$app_id}=APPID&secret={$secret}&js_code={$code}&grant_type=authorization_code";
+        $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$app_id}&secret={$secret}&js_code={$code}&grant_type=authorization_code";
         $res = Yii::$app->services->pay->httpRequest($url);
         $res_arr = json_decode($res,true);
         if($res_arr['errcode']){
