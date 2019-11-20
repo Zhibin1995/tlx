@@ -109,12 +109,12 @@ class SmsService extends Service
         $template = Yii::$app->debris->config('sms_aliyun_template');
         !empty($template) && $template = ArrayHelper::map(unserialize($template), 'group', 'template');
         $templateID = $template[$usage] ?? '';
-
         try {
             // 校验发送是否频繁
             if (($smsLog = $this->findByMobile($mobile)) && $smsLog['created_at'] + 60 > time()) {
-                throw new NotFoundHttpException('请不要频繁发送短信');
+                //throw new NotFoundHttpException('请不要频繁发送短信');
             }
+//            var_dump($templateID);die;
 
             $easySms = new EasySms($this->config);
             $result = $easySms->send($mobile, [

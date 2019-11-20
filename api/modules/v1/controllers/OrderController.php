@@ -23,6 +23,7 @@ use common\models\app\Package;
 use common\models\app\Shop;
 use common\models\app\ShopComment;
 use common\models\app\ShopTime;
+use common\models\common\SignatureHelper;
 use Yii;
 
 class OrderController extends OnAuthController
@@ -229,7 +230,8 @@ class OrderController extends OnAuthController
         $end = $post['end'];
         $times = $post['times'];
         $shop_id = $post['shop_id'];
-        $code = rand(100000,999999);
+//        $code = rand(100000,999999);
+        $code = 0;
         $model = new OrderMake();
         $model->member_id = $member_id;
         $model->detail_ids = $ids;
@@ -250,7 +252,9 @@ class OrderController extends OnAuthController
             'shop' => $shop->position,
             'code' => $code
         ];
-        Yii::$app->services->sms->realSend($address->mobile, $send_data, 'SMS_177543960', $member_id);
+//        $send = new SignatureHelper();
+//        $send->sendSms("15330000272", $send_data);
+//        Yii::$app->services->sms->realSend($address->mobile, $send_data, '通知', $member_id);
         $times_ids = ShopTime::find()->andWhere(['shop_id' => $shop_id])
             ->andWhere(['date' => $model->date])
             ->andWhere(['>=','start_time',$model->start])
@@ -292,7 +296,7 @@ class OrderController extends OnAuthController
         $goodComment->good_id = $detail->good_id;
         $goodComment->content = $content;
         $goodComment->is_hide = $is_hide;
-        $goodComment->save();
+        $goodComment->save(false);
         if($img){
             foreach ($img as $item){
                 $img_model = new CommentImg();
