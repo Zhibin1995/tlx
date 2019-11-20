@@ -104,7 +104,7 @@ class SmsService extends Service
      * @param int $member_id
      * @throws UnprocessableEntityHttpException
      */
-    public function realSend($mobile, $code, $usage, $member_id = 0)
+    public function realSend($mobile, $data, $usage, $member_id = 0)
     {
         $template = Yii::$app->debris->config('sms_aliyun_template');
         !empty($template) && $template = ArrayHelper::map(unserialize($template), 'group', 'template');
@@ -119,14 +119,12 @@ class SmsService extends Service
             $easySms = new EasySms($this->config);
             $result = $easySms->send($mobile, [
                 'template' => $templateID,
-                'data' => [
-                    'code' => $code,
-                ],
+                'data' => $data,
             ]);
 
             $this->saveLog([
                 'mobile' => $mobile,
-                'code' => $code,
+                'code' => $data['code'],
                 'member_id' => $member_id,
                 'usage' => $usage,
                 'error_code' => 200,
@@ -148,7 +146,7 @@ class SmsService extends Service
 
             $log = $this->saveLog([
                 'mobile' => $mobile,
-                'code' => $code,
+                'code' => $data['code'],
                 'member_id' => $member_id,
                 'usage' => $usage,
                 'error_code' => 422,
