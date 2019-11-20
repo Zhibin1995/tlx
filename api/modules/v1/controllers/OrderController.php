@@ -214,6 +214,7 @@ class OrderController extends OnAuthController
             $temp['area_id'] = $address->area_id;
             $temp['times'] = $item->hour;
             $temp['goods'] = $detail_arr;
+            $temp['code'] = $item->code;
             $res[] = $temp;
         }
         return $res;
