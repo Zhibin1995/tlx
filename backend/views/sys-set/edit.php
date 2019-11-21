@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                             ]
                     ]); ?>
+                    <?= $form->field($model, 'serve_num')->textInput() ?>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12 text-center">

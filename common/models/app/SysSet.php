@@ -32,7 +32,7 @@ class SysSet extends \common\models\base\BaseModel
     {
         return [
             [['about'], 'string'],
-            [['status', 'sort', 'created_at', 'updated_at'], 'integer'],
+            [['status', 'sort', 'serve_num', 'created_at', 'updated_at'], 'integer'],
             [['category_bannr'], 'string', 'max' => 255],
         ];
     }
@@ -46,6 +46,7 @@ class SysSet extends \common\models\base\BaseModel
             'id' => 'ID',
             'about' => '关于我们',
             'category_bannr' => '分类banner',
+            'serve_num' => '服务人数',
             'status' => 'Status',
             'sort' => '排序',
             'created_at' => '创建时间',

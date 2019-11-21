@@ -132,6 +132,7 @@ return [
                         'POST delete' => 'delete',
                         'POST create_time' => 'create-time',
                         'POST new-make' => 'new-make',
+                        'POST serve-num' => 'serve-num',
                         'POST get_time' => 'get-time',
                         'POST province' => 'province',
                         'POST set-default' => 'set-default',
