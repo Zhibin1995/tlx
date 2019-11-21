@@ -16,9 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
-                <div class="box-tools">
-                    <?= Html::create(['edit']) ?>
-                </div>
             </div>
             <div class="box-body table-responsive">
     <?= GridView::widget([
@@ -32,22 +29,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             //'comment_Id',
-            'url:url',
+            [
+                'attribute' => 'url',
+                'format' => [
+                    'image',
+                    [
+                        'width'=>'200'
+                    ]
+                ],
+                'value' => function ($model) {
+                    return $model->url;
+                }
+            ],
             //'status',
             //'sort',
-            'created_at',
+            'created_at:datetime',
             //'updated_at',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{edit} {status} {delete}',
+                'template' => '{delete}',
                 'buttons' => [
-                'edit' => function($url, $model, $key){
-                        return Html::edit(['edit', 'id' => $model->id]);
-                },
-               'status' => function($url, $model, $key){
-                        return Html::status($model['status']);
-                  },
                 'delete' => function($url, $model, $key){
                         return Html::delete(['delete', 'id' => $model->id]);
                 },

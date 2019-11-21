@@ -16,9 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
-                <div class="box-tools">
-                    <?= Html::create(['edit']) ?>
-                </div>
             </div>
             <div class="box-body table-responsive">
     <?= GridView::widget([
@@ -32,24 +29,50 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id',
             //'member_Id',
-            'good_id',
+            [
+                'attribute' => 'good_id',
+                'value' => function ($model) {
+                    return \common\models\app\Goods::find()->select('name')->where(['id' => $model->good_id])->scalar();
+                }
+            ],
             'content',
             'reply',
-            //'audit',
-            //'status',
-            //'is_hide',
+//            'audit',
+            [
+                'attribute' => 'is_hide',
+                'value' => function ($model) {
+                    $arr = [
+                        0 => '否',
+                        1 => '是'
+                    ];
+                    return $arr[$model->is_hide];
+                }
+            ],
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    $arr = [
+                        0 => '未审核',
+                        1 => '已审核'
+                    ];
+                    return $arr[$model->status];
+                }
+            ],
             //'sort',
-            //'created_at',
-            //'updated_at',
+            'created_at:datetime',
+            'updated_at:datetime',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{edit} {status} {delete}',
+                'template' => '{comment-img} {edit} {status} {delete}',
                 'buttons' => [
+                    'comment-img' => function($url, $model, $key){
+                        return "<a class=\"btn btn-primary btn-sm\" href=\"/backend/comment-img/index?comment_id={$model->id}\">评论图片</a>";
+                        },
                 'edit' => function($url, $model, $key){
-                        return Html::edit(['edit', 'id' => $model->id]);
+                        return Html::edit(['edit', 'id' => $model->id], '回复');
                 },
-               'status' => function($url, $model, $key){
+                'status' => function($url, $model, $key){
                         return Html::status($model['status']);
                   },
                 'delete' => function($url, $model, $key){

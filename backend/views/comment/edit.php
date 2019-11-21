@@ -25,11 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]); ?>
                 <div class="col-sm-12">
-                    <?= $form->field($model, 'good_id')->textInput() ?>
-                    <?= $form->field($model, 'content')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'reply')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'audit')->textInput() ?>
-                    <?= $form->field($model, 'created_at')->textInput() ?>
+                    <?= $form->field($model, 'reply')->textarea() ?>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12 text-center">

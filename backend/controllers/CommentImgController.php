@@ -44,7 +44,7 @@ class CommentImgController extends BaseController
 
         $dataProvider = $searchModel
             ->search(Yii::$app->request->queryParams);
-
+        $dataProvider->query->andWhere(['comment_Id' => Yii::$app->request->get('comment_id')]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,

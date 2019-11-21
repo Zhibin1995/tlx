@@ -53,11 +53,11 @@ class Comment extends BaseModel
             'content' => '内容',
             'reply' => '回复',
             'audit' => '审核状态',
-            'status' => 'Status',
+            'status' => '审核状态',
             'is_hide' => '是否匿名',
             'sort' => '排序',
             'created_at' => '创建时间',
-            'updated_at' => 'Updated At',
+            'updated_at' => '更新时间',
         ];
     }
 }
