@@ -66,7 +66,7 @@ class GoodController  extends OnAuthController
                 $list[$k]['username'] = '匿名用户';
                 $list[$k]['head'] = '/backend/resources/dist/img/profile_small.jpg';
             }else{
-                $member = Member::findOne($v['member_id']);
+                $member = Member::findOne($v['member_Id']);
                 $list[$k]['username'] = $member->nickname;
                 $list[$k]['head'] = $member->avatar;
             }
