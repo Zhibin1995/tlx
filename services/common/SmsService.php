@@ -123,7 +123,7 @@ class SmsService extends Service
 
             $this->saveLog([
                 'mobile' => $mobile,
-                'code' => $data['code'],
+                'code' => '2',
                 'member_id' => $member_id,
                 'usage' => $usage,
                 'error_code' => 200,
@@ -145,7 +145,7 @@ class SmsService extends Service
 
             $log = $this->saveLog([
                 'mobile' => $mobile,
-                'code' => $data['code'],
+                'code' => 3,
                 'member_id' => $member_id,
                 'usage' => $usage,
                 'error_code' => 422,

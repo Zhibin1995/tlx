@@ -231,8 +231,8 @@ class OrderController extends OnAuthController
         $end = $post['end'];
         $times = $post['times'];
         $shop_id = $post['shop_id'];
-//        $code = rand(100000,999999);
-        $code = 0;
+        $code = rand(100000,999999);
+//        $code = 0;
         $model = new OrderMake();
         $model->member_id = $member_id;
         $model->detail_ids = $ids;
@@ -249,13 +249,13 @@ class OrderController extends OnAuthController
         $address = Address::findOne($address_id);
         $shop = Shop::findOne($shop_id);
         $send_data = [
-            'time' => $date_string,
-            'shop' => $shop->position,
-            'code' => $code
+            'time' => date('Y-m-d', $model->date),
+            'shop' => $shop->id,
+//            'code' => $code
         ];
 //        $send = new SignatureHelper();
 //        $send->sendSms("15330000272", $send_data);
-//        Yii::$app->services->sms->realSend($address->mobile, $send_data, '通知', $member_id);
+        Yii::$app->services->sms->realSend($address->mobile, $send_data, '通知', $member_id);
         $times_ids = ShopTime::find()->andWhere(['shop_id' => $shop_id])
             ->andWhere(['date' => $model->date])
             ->andWhere(['>=','start_time',$model->start])
