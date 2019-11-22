@@ -250,7 +250,7 @@ class OrderController extends OnAuthController
         $shop = Shop::findOne($shop_id);
         $send_data = [
             'time' => date('Y-m-d', $model->date),
-            'shop' => $shop->id,
+            'name' => $shop->position,
 //            'code' => $code
         ];
 //        $send = new SignatureHelper();
