@@ -37,7 +37,7 @@ class PayForm extends Model
     public function rules()
     {
         return [
-            [['orderGroup', 'payType', 'data', 'tradeType', 'member_id','address_id'], 'required'],
+            [['orderGroup', 'payType', 'data', 'tradeType', 'member_id'], 'required'],
             [['orderGroup'], 'in', 'range' => array_keys(PayEnum::$orderGroupExplain)],
             [['payType'], 'in', 'range' => array_keys(PayEnum::$payTypeExplain)],
             [['notifyUrl', 'returnUrl'], 'string'],
@@ -116,13 +116,13 @@ class PayForm extends Model
         switch ($this->orderGroup) {
             case PayEnum::ORDER_GROUP_GOODS :
                 $num = $amount = 0;
-                $address = Address::findOne($this->address_id);
+                //$address = Address::findOne($this->address_id);
                 $order_model = new Order();
                 $order_model->member_id = $this->member_id;
                 $order_model->order_no = $this->createOrderNo();
-                $order_model->username = $address->realname;
-                $order_model->userphone = $address->mobile;
-                $order_model->address = $address->address_name.$address->address_details;
+                //$order_model->username = $address->realname;
+                //$order_model->userphone = $address->mobile;
+                //$order_model->address = $address->address_name.$address->address_details;
                 $order_model->num = $num;
                 $order_model->amount = $amount;
                 $order_model->save();
@@ -166,13 +166,13 @@ class PayForm extends Model
                 break;
             default:
                 $num = $amount = 0;
-                $address = Address::findOne($this->address_id);
+                //$address = Address::findOne($this->address_id);
                 $order_model = new Order();
                 $order_model->member_id = $this->member_id;
                 $order_model->order_no = $this->createOrderNo();
-                $order_model->username = $address->realname;
-                $order_model->userphone = $address->mobile;
-                $order_model->address = $address->address_name.$address->address_details;
+                //$order_model->username = $address->realname;
+                //$order_model->userphone = $address->mobile;
+                //$order_model->address = $address->address_name.$address->address_details;
                 $order_model->num = $num;
                 $order_model->amount = $amount;
                 $order_model->save();
