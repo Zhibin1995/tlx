@@ -64,7 +64,7 @@ class GoodController  extends OnAuthController
             $list[$k]['img'] = CommentImg::find()->where(['comment_Id'=>$v['id']])->select('url')->column();
             if($v['is_hide']){
                 $list[$k]['username'] = '匿名用户';
-                $list[$k]['head'] = '/backend/resources/dist/img/profile_small.jpg';
+                $list[$k]['head'] = 'https://www.tianluoxia.com'.'/backend/resources/dist/img/profile_small.jpg';
             }else{
                 $member = Member::findOne($v['member_Id']);
                 $list[$k]['username'] = $member->nickname;
