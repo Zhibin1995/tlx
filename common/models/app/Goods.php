@@ -41,11 +41,11 @@ class Goods extends BaseModel
     public function rules()
     {
         return [
-            [['category_id', 'sale_num', 'is_hot', 'status', 'sort', 'created_at', 'updated_at'], 'integer'],
+            [['category_id', 'sale_num', 'status', 'sort', 'created_at', 'updated_at'], 'integer'],
             [['price', 'old_price'], 'number'],
             [['detail','times'], 'string'],
             [['name', 'spec'], 'string', 'max' => 255],
-            [['url'], 'safe'],
+            [['url','is_hot'], 'safe'],
             [['desc'], 'string', 'max' => 511],
         ];
     }

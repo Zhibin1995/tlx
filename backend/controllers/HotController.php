@@ -62,7 +62,7 @@ class HotController extends BaseController
         if (Yii::$app->request->isPost) {
             $goods = Goods::findOne(Yii::$app->request->post('Goods')['id']);
             $goods->is_hot = 1;
-            $goods->save();
+            $goods->save(false);
             return $this->redirect(['index']);
         }
 
@@ -84,7 +84,7 @@ class HotController extends BaseController
     {
         $model = $this->findModel($id);
         $model->is_hot = 0;
-        if ($model->save()) {
+        if ($model->save(false)) {
             return $this->message("删除成功", $this->redirect(['index']));
         }
 
