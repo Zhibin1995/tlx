@@ -28,31 +28,44 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             'id',
-            'member_id',
+            [
+                'attribute' => 'member_id',
+                'value' => function ($model) {
+                    return \common\models\app\Member::find()->select('nickname')->where(['id' => $model->member_id])->scalar();
+                }
+            ],
             'order_no',
             //'transaction_id',
-            'type',
-            'pay_status',
-            'username',
-            'userphone',
-            'address',
-            //'num',
+            [
+                'attribute' => 'type',
+                'value' => function ($model) {
+                    $arr = [
+                        1 => '商品',
+                        2 => '套餐'
+                    ];
+                    return $arr[$model->type];
+                }
+            ],
+            [
+                'attribute' => 'pay_status',
+                'value' => function ($model) {
+                    return $model->getPayStatus();
+                }
+            ],
+            //'username',
+            //'userphone',
+            //'address',
+            'num',
             'amount',
-            'remark',
+            //'remark',
             //'status',
-            'created_at',
+            'created_at:datetime',
             //'updated_at',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{edit} {status} {delete}',
+                'template' => '{delete}',
                 'buttons' => [
-                'edit' => function($url, $model, $key){
-                        return Html::edit(['edit', 'id' => $model->id]);
-                },
-               'status' => function($url, $model, $key){
-                        return Html::status($model['status']);
-                  },
                 'delete' => function($url, $model, $key){
                         return Html::delete(['delete', 'id' => $model->id]);
                 },

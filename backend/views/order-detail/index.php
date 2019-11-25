@@ -16,9 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
-                <div class="box-tools">
-                    <?= Html::create(['edit']) ?>
-                </div>
             </div>
             <div class="box-body table-responsive">
     <?= GridView::widget([
@@ -31,27 +28,45 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             'id',
-            'member_id',
+            [
+                'attribute' => 'member_id',
+                'value' => function ($model) {
+                    return \common\models\app\Member::find()->select('nickname')->where(['id' => $model->member_id])->scalar();
+                }
+            ],
             //'order_id',
-            'good_id',
+            [
+                'attribute' => 'good_id',
+                'value' => function ($model) {
+                    return \common\models\app\Goods::find()->select('name')->where(['id' => $model->good_id])->scalar();
+                }
+            ],
             'num',
-            'make_status',
+            [
+                'attribute' => 'make_status',
+                'value' => function ($model) {
+                    return $model->getMakeStatus();
+                }
+            ],
             'make_time:datetime',
-            'is_refund',
+            [
+                'attribute' => 'is_refund',
+                'value' => function ($model) {
+                    $arr = [
+                        0 => '否',
+                        1 => '是'
+                    ];
+                    return $arr[$model->is_refund];
+                }
+            ],
             //'status',
-            'created_at',
+            'created_at:datetime',
             //'updated_at',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{edit} {status} {delete}',
+                'template' => '{delete}',
                 'buttons' => [
-                'edit' => function($url, $model, $key){
-                        return Html::edit(['edit', 'id' => $model->id]);
-                },
-               'status' => function($url, $model, $key){
-                        return Html::status($model['status']);
-                  },
                 'delete' => function($url, $model, $key){
                         return Html::delete(['delete', 'id' => $model->id]);
                 },

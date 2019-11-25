@@ -45,6 +45,18 @@ class Order extends BaseModel
             [['order_no', 'transaction_id', 'username', 'userphone', 'address', 'remark'], 'string', 'max' => 255],
         ];
     }
+    public function getPayStatus(){
+        $arr = [
+            0 => '待支付',
+            1 => '已支付',
+            2 => '退款中',
+            3 => '已退款',
+            4 => '待评价',
+            5 => '已完成',
+            6 => '已取消'
+        ];
+        return $arr[$this->pay_status];
+    }
 
     /**
      * {@inheritdoc}

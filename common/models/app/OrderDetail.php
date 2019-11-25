@@ -59,4 +59,14 @@ class OrderDetail extends BaseModel
             'updated_at' => '修改时间',
         ];
     }
+    public function getMakeStatus(){
+        $arr = [
+            0 => '待支付',
+            1 => '待预约',
+            2 => '待服务',
+            3 => '待评价',
+            4 => '已完成'
+        ];
+        return $arr[$this->make_status];
+    }
 }
