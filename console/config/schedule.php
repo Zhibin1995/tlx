@@ -11,7 +11,7 @@ $path = Yii::getAlias('@runtime') . '/logs/';
  * 每天凌晨执行一次
  */
 $filePath = $path . 'msgHistory.log';
-$schedule->command('msg-history/index')->cron('0 0 * * *')->sendOutputTo($filePath);
+//$schedule->command('msg-history/index')->cron('0 0 * * *')->sendOutputTo($filePath);
 
 /**
  * 定时群发微信消息
@@ -19,4 +19,7 @@ $schedule->command('msg-history/index')->cron('0 0 * * *')->sendOutputTo($filePa
  * 每分钟执行一次
  */
 $filePath = $path . 'sendMessage.log';
+//$schedule->command('send-message/index')->cron('* * * * *')->sendOutputTo($filePath);
+
+$filePath = $path . 'order.log';
 $schedule->command('send-message/index')->cron('* * * * *')->sendOutputTo($filePath);
