@@ -72,4 +72,12 @@ class OrderMake extends \common\models\base\BaseModel
             'updated_at' => 'Updated At',
         ];
     }
+    public function getMakeStatus(){
+        $arr = [
+            0 => '待接单',
+            1 => '已接单',
+            2 => '已完成'
+        ];
+        return $arr[$this->make_status];
+    }
 }
