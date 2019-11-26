@@ -22,4 +22,4 @@ $filePath = $path . 'sendMessage.log';
 //$schedule->command('send-message/index')->cron('* * * * *')->sendOutputTo($filePath);
 
 $filePath = $path . 'order.log';
-$schedule->command('send-message/index')->cron('* * * * *')->sendOutputTo($filePath);
+$schedule->command('order/index')->cron('* * * * *')->sendOutputTo($filePath);
