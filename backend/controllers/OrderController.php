@@ -75,7 +75,7 @@ class OrderController extends BaseController
             ['创建时间', 'created_at', 'date', 'Y-m-d H:i:s'],
         ];
 
-        $list = Order::find()->asArray()->all();
+        $list = Order::find()->all();
         return ExcelHelper::exportData($list, $header);
     }
 }
