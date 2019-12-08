@@ -56,7 +56,10 @@ class OrderController extends BaseController
             ['用户', 'member_id','function', function ($model) {
                 return \common\models\app\Member::find()->select('nickname')->where(['id' => $model->member_id])->scalar();
             }], // 规则不填默认text
-            ['订单号', 'order_no', 'text'],
+            ['订单号', 'order_no', 'function',function ($model) {
+
+                return ' '.$model->order_no;
+            }],
             ['类型', 'type', 'function',function ($model) {
                 $arr = [
                     1 => '商品',
@@ -69,10 +72,10 @@ class OrderController extends BaseController
             }],
             ['数量', 'num', 'text'],
             ['价格', 'amount', 'text'],
-            ['创建时间', 'created_at', 'date', 'Y-m-d'],
+            ['创建时间', 'created_at', 'date', 'Y-m-d H:i:s'],
         ];
 
-        $list = Order::findAll(['>','status',1]);
+        $list = Order::find()->asArray()->all();
         return ExcelHelper::exportData($list, $header);
     }
 }
