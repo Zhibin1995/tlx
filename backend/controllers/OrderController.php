@@ -51,7 +51,6 @@ class OrderController extends BaseController
         ]);
     }
     public function actionExport(){
-        echo phpinfo();die;
         $header = [
             ['ID', 'id', 'text'],
             ['用户', 'member_id','function', function ($model) {
