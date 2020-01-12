@@ -112,7 +112,7 @@ class SmsService extends Service
         try {
             // 校验发送是否频繁
             if (($smsLog = $this->findByMobile($mobile)) && $smsLog['created_at'] + 60 > time()) {
-                throw new NotFoundHttpException('请不要频繁发送短信');
+//                throw new NotFoundHttpException('请不要频繁发送短信');
             }
 
             $easySms = new EasySms($this->config);
